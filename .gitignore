@@ -1,0 +1,24 @@
+# Private or raw materials
+external/
+private/
+raw/
+data/
+outputs/
+reference_run/
+prompt_snapshots/
+*.env
+.env*
+
+# LaTeX / build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.xdv
+*.synctex.gz
+
+# Local system files
+.DS_Store
