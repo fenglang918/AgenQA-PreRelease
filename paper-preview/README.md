@@ -2,7 +2,13 @@
 
 [English](./README.en.md)
 
-本目录包含当前 AgenQA 论文前三个主体部分的 GitHub-readable preview：
+本目录包含 AgenQA 的 paper preview。推荐优先阅读 LaTeX PDF：
+
+**[打开 AgenQA Paper Preview PDF](./agenqa_paper_preview.zh.pdf)**
+
+PDF 按论文结构组织：标题、摘要、Introduction、Background and Motivation、Method、两个实验表格、三个题目展示、总结和参考文献。
+
+Markdown 版本保留为分节预览：
 
 1. [Introduction](./01_introduction.zh.md)
 2. [Background and Motivation](./02_background_motivation.zh.md)
