@@ -8,6 +8,8 @@
 
 AgenQA 研究的问题是：如何合成真正有挑战性的 scientific reasoning QA 数据，同时让生成过程仍然可检查、可修复、可评测。
 
+![AgenQA overview](./paper-preview/figures/figure1_chain_growth_path_fold.png)
+
 - **核心方法**：先构造一条 step-verifiable **Chain-of-KQA**，再通过 **Path-Fold** 隐藏中间 facts，形成更难的 solver-facing **Path View**。
 - **验证视角**：同一条 dependency chain 同时投影为局部 **Edge View** 和全局 **Path View**，分离 correctness control 与 difficulty amplification。
 - **系统设计**：用 **Director--Operator--Evaluator loop** 组织 init / extend / revise / finish，让 generation、verification 和 repair 发生在同一显式 reasoning state 上。
@@ -34,8 +36,6 @@ PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and C
 3. **Benchmark-construction validation**：用 Edge-side correctness gates 与 Path-side solver distributions 验证生成题目的可过滤性、难度信号和模型区分度。
 
 ## Core Idea
-
-![AgenQA overview](./paper-preview/figures/figure1_chain_growth_path_fold.png)
 
 AgenQA 不把困难题生成当作一次性 final-question generation，而是把它拆成一个可控制的 synthesis object：
 

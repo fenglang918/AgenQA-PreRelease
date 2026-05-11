@@ -8,6 +8,8 @@
 
 AgenQA studies how to synthesize challenging scientific reasoning QA data while keeping the generation process verifiable, repairable, and evaluable.
 
+![AgenQA overview](./paper-preview/figures/figure1_chain_growth_path_fold.png)
+
 - **Core method**: grow a step-verifiable **Chain-of-KQA**, then apply **Path-Fold** to hide intermediate facts and create a harder solver-facing **Path View**.
 - **Verification views**: project the same dependency chain into local **Edge Views** and global **Path Views**, separating correctness control from difficulty amplification.
 - **System design**: organize init / extend / revise / finish through a **Director--Operator--Evaluator loop** over an explicit reasoning state.
@@ -32,8 +34,6 @@ Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.z
 3. **Benchmark-construction validation**: use Edge-side correctness gates and Path-side solver distributions to validate filtering, difficulty signals, and model discrimination.
 
 ## Core Idea
-
-![AgenQA overview](./paper-preview/figures/figure1_chain_growth_path_fold.png)
 
 AgenQA does not treat difficult-question generation as one-shot final-question writing. It turns synthesis into a controlled object:
 
