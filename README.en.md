@@ -14,7 +14,7 @@ The resulting object can support benchmark construction, supervised fine-tuning 
 
 ## My Role
 
-I led AgenQA as an academic collaboration project from late 2025 to early 2026. My work covered:
+I led AgenQA as an academic collaboration project from November 2025 to March 2026. My work covered:
 
 - **Research abstraction**: framed difficult QA synthesis as step-verifiable dependency-chain growth plus Path-Fold, with Edge/Path views separating correctness control from difficulty amplification.
 - **System design**: designed the Director--Operator--Evaluator loop, including extend/revise operations, solver feedback, consensus, answer/world contracts, and replayable artifacts.

@@ -14,7 +14,7 @@ AgenQA 研究的问题是：如何合成具有挑战性的 scientific reasoning 
 
 ## My Role
 
-我在 2025 年底到 2026 年初作为项目负责人推进 AgenQA，负责：
+我在 2025 年 11 月至 2026 年 3 月作为项目负责人推进 AgenQA，负责：
 
 - **研究抽象**：将困难 QA 合成建模为 step-verifiable dependency-chain growth + Path-Fold，用 Edge/Path views 分离 correctness control 与 difficulty amplification。
 - **系统设计**：设计 Director--Operator--Evaluator loop，包括 extend/revise 操作、solver feedback、consensus、answer/world contracts 和 replayable artifacts。
