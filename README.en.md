@@ -1,6 +1,6 @@
 # AgenQA-PreRelease
 
-**AgenQA project preview for AI research / RA hiring: agentic data synthesis for scientific reasoning QA benchmark construction.**
+**AgenQA research project preview: agentic data synthesis for scientific reasoning QA benchmark construction.**
 
 [中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.pdf) · [Architecture](./docs/architecture.md) · [Prompt Files](./prompts/)
 
@@ -53,8 +53,8 @@ I led AgenQA from **November 2025 to March 2026**. My main work covered:
 | Research abstraction | Framed difficult QA synthesis as step-verifiable dependency-chain growth plus Path-Fold |
 | System design | Designed the Director--Operator--Evaluator loop and the extend / revise / evaluator-feedback lifecycle |
 | Evaluation loop | Organized SOTA solver comparison, Qwen scale gradient, Edge/Path gap analysis, and quality filtering |
-| Paper framing | Translated internal system language into public paper / hiring-showcase research framing |
-| Collaboration | Coordinated multiple RA sub-directions across benchmark, vision, coding, and training-data tracks |
+| Paper framing | Translated internal system language into public-facing paper / research framing |
+| Collaboration | Coordinated multiple collaboration tracks across benchmark, vision, coding, and training-data directions |
 
 ## Repository Map
 

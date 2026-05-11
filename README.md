@@ -1,6 +1,6 @@
 # AgenQA-PreRelease
 
-**面向 AI research / RA 投递场景的 AgenQA 项目预览：agentic data synthesis for scientific reasoning QA benchmark construction。**
+**AgenQA 研究项目预览：agentic data synthesis for scientific reasoning QA benchmark construction。**
 
 [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [实验展示](./docs/experiments.zh.md) · [样例题 PDF](./docs/examples.pdf) · [系统架构](./docs/architecture.zh.md) · [Prompt 文件](./prompts/) · [English](./README.en.md)
 
@@ -55,8 +55,8 @@ AgenQA 不把困难题生成当作一次性 final-question generation，而是�
 | 研究抽象 | 将困难 QA 合成建模为 step-verifiable dependency-chain growth + Path-Fold |
 | 系统设计 | 设计 Director--Operator--Evaluator loop，以及 extend / revise / evaluator feedback 的状态转移生命周期 |
 | 评测闭环 | 组织 SOTA solver comparison、Qwen scale gradient、Edge/Path gap 和质量过滤分析 |
-| 论文表达 | 将内部系统语言改写为 public paper / hiring showcase 可读的 research framing |
-| 协作推进 | 协调多个 RA 子方向，将上游数据合成需求拆解到 benchmark、vision、coding、training-data 等可复用方向 |
+| 论文表达 | 将内部系统语言改写为 public-facing paper / research framing |
+| 协作推进 | 协调多个协作方向，将上游数据合成需求拆解到 benchmark、vision、coding、training-data 等可复用方向 |
 
 ## Repository Map
 
