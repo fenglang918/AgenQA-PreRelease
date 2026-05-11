@@ -1,13 +1,13 @@
-# Paper Preview
+# 论文预览
 
-[中文说明](./README.zh.md)
+[English](./README.en.md)
 
-This folder contains a GitHub-readable preview of the current AgenQA manuscript's first three substantive sections:
+本目录包含当前 AgenQA 论文前三个主体部分的 GitHub-readable preview：
 
-1. [Introduction](./01_introduction.md)
-2. [Background and Motivation](./02_background_motivation.md)
-3. [Method: The AgenQA Framework](./03_method.md)
+1. [Introduction](./01_introduction.zh.md)
+2. [Background and Motivation](./02_background_motivation.zh.md)
+3. [Method: The AgenQA Framework](./03_method.zh.md)
 
-The abstract, experiments, conclusion, and appendix are intentionally not included as full paper sections in this public pre-release repository. The experiment page in `docs/` provides only redacted aggregate evidence for hiring-context evaluation.
+Abstract、Experiments、Conclusion 和 Appendix 暂不作为完整论文部分公开。`docs/` 中的实验页面只提供面向简历展示的脱敏 aggregate evidence。
 
-This is not a final preprint. It is a public technical preview used to explain the project and my role before source-code or benchmark release.
+这不是最终 preprint，而是用于解释项目、技术思路和个人贡献的 public technical preview。
