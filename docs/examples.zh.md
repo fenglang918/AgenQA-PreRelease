@@ -12,4 +12,4 @@ PDF 中包含三道 selected **Path View** sample questions：
 - Pointer-Generator Coverage Loss 的梯度路径；
 - TRADES 鲁棒训练目标的外层与内层条件。
 
-这些样例用于说明 AgenQA 生成题目的形态与难度来源。它们不是完整 benchmark release，也不附带 source papers、raw solver responses、prompt snapshots 或 run artifacts。
+这些样例用于说明 AgenQA 生成题目的形态与难度来源。

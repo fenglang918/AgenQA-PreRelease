@@ -2,8 +2,6 @@
 
 [English](./01_introduction.md)
 
-> 预发布节选。本节改写自进行中的论文草稿，不是最终 preprint。
-
 ## Challenging Reasoning QA as a Data Substrate
 
 面向 challenging reasoning QA 的高质量数据不只服务于 benchmark，它同时是评估和改进大语言模型的共同数据基底。它可以被实例化为 benchmark、supervised fine-tuning examples、reinforcement-learning tasks，或者 post-training 中的 curriculum data。

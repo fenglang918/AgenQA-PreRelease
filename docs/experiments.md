@@ -2,7 +2,7 @@
 
 [中文](./experiments.zh.md)
 
-> This page summarizes an evaluation snapshot from the March 26, 2026 project report. It shows that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal. It is not the final experiment table for the paper and is not a formal benchmark release.
+This page summarizes an evaluation snapshot from the March 26, 2026 project report. It shows that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal.
 
 The paper framing of AgenQA separates the roles of Edge and Path views: Edge Views support step-level correctness control, while Path-Fold creates solver-facing Path View questions whose solver distributions reveal global difficulty and discrimination signal. This page therefore keeps only two tables: one for strong solvers on Path View questions, and one for the Qwen-family scale gradient.
 
@@ -23,7 +23,7 @@ This table comes from a stronger problem-specification setting where problem con
 
 This table comes from an earlier set of `37` synthesis runs / `175` Path View questions. It shows an accuracy gradient within the same model family as model scale increases, suggesting that the tasks reflect solver capability differences rather than random noise.
 
-| Solver | All Path View accuracy | Diagnostic-subset accuracy | Public reading |
+| Solver | All Path View accuracy | Diagnostic-subset accuracy | Interpretation |
 | --- | ---: | ---: | --- |
 | qwen3-4b | 48.00% | 21.55% | lower-capacity baseline |
 | qwen3-8b | 56.57% | 34.48% | mid-scale improvement |
@@ -31,5 +31,3 @@ This table comes from an earlier set of `37` synthesis runs / `175` Path View qu
 | All solvers | 59.54% | 38.97% | family-level aggregate |
 
 Together, the two tables show that AgenQA's Path-Fold does more than create longer problem statements: it preserves a generator-side dependency state while producing solver-facing benchmark items with measurable difficulty and model-discrimination signal.
-
-This page still does not release the full raw benchmark set, source papers, raw solver responses, consensus JSON, model API configuration, or prompt snapshots.

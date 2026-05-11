@@ -2,8 +2,6 @@
 
 [中文](./03_method.zh.md)
 
-> Pre-release excerpt. This section is adapted from a work-in-progress manuscript and is not a final preprint.
-
 AgenQA treats challenging reasoning-QA synthesis not as one-shot final-question generation, but as progressive construction of a step-verifiable reasoning chain followed by Path-Fold, which hides intermediate reasoning steps to form a globally challenging question.
 
 ![Step-Verifiable Chain Growth and Path-Fold](./figures/figure1_chain_growth_path_fold.png)
@@ -130,4 +128,4 @@ Once a chain is accepted, AgenQA can route the same object to multiple downstrea
 - supervised fine-tuning, where accepted snapshots can be exported as Edge QA, Path-direct QA, or mixtures;
 - reinforcement-learning-style training, where Path questions can serve as terminal tasks and hidden dependency structure can support process-level signals.
 
-In the current project stage, the primary public validation focuses on benchmark construction.
+In the current project stage, the primary validation focuses on benchmark construction.

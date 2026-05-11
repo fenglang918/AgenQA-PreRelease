@@ -2,8 +2,6 @@
 
 [English](./02_background_motivation.md)
 
-> 预发布节选。本节改写自进行中的论文草稿，不是最终 preprint。
-
 ## Synthetic Reasoning Data Background
 
 面向科学与复杂推理的 synthetic data 并不只是“生成更多题目”。MegaScience 等科学后训练数据工作表明，数据的答案可靠性、去污染、长度控制、领域覆盖和配方都会影响下游模型是否真正学到推理能力。Data Darwinism 进一步从数据加工层级提醒我们，高价值数据需要从原始文本或简单问答转化为更可学习、更可验证、更接近任务环境的对象。

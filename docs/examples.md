@@ -12,4 +12,4 @@ The default Chinese entry is [代表性样例题](./examples.zh.md). The PDF inc
 - pointer-generator coverage-loss gradient derivation;
 - TRADES adversarial-training optimality and inner maximization conditions.
 
-These are representative samples, not a full benchmark release. The repository still does not publish source papers, raw solver responses, prompts, or run artifacts.
+These samples illustrate the shape and source of difficulty in AgenQA-generated questions.

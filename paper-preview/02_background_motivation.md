@@ -2,8 +2,6 @@
 
 [中文](./02_background_motivation.zh.md)
 
-> Pre-release excerpt. This section is adapted from a work-in-progress manuscript and is not a final preprint.
-
 ## Synthetic Reasoning Data Background
 
 Synthetic data for scientific and complex reasoning is not merely about generating more questions. Scientific post-training data work such as MegaScience shows that answer reliability, contamination control, length, domain coverage, and data mixture all affect whether downstream models learn useful reasoning capabilities. Data Darwinism further frames high-value data as a product of staged processing: raw text or simple QA must be transformed into objects that are more learnable, verifiable, and environment-like.

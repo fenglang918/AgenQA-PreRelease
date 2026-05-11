@@ -2,26 +2,25 @@
 
 [中文](./artifact-map.zh.md)
 
-This page explains what AgenQA records during a run without releasing raw artifacts.
+This page explains what AgenQA records during a run and how those records map to the system design.
 
 ## Why Artifacts Matter
 
 AgenQA is designed so that a generated item is not only a final QA pair. Each run records intermediate state, solver-facing views, validation signals, and feedback used for repair. This makes the synthesis process auditable and debuggable.
 
-## Redacted Run Structure
+## Run Structure
 
 ```text
 run/
-  run_config.json                  # public config summary
-  state.json                       # final chain state, not public here
+  run_config.json                  # run-level configuration
+  state.json                       # final chain state
   run_playback.md                  # human-readable run summary
-  00_Prompts_Snapshot/             # not released in public preview
   00_Summary/
     final_comment.json             # final diagnostic summary
   round_1/
     step_0_init/
       director_decision.json       # why the run initializes
-      inputs/                      # source-derived inputs, not public here
+      inputs/                      # source-derived inputs
       subruns/                     # skill-level intermediate outputs
     step_1_extend/
       director_decision.json       # extend/revise/finish decision
@@ -35,7 +34,7 @@ run/
         step_cert_builder.json
         path_fold.json
       solve/
-        solver_outputs.jsonl       # not public here
+        solver_outputs.jsonl
         consensus_summary_edge.json
         consensus_summary_path.json
         ambiguity_report.json
@@ -43,7 +42,7 @@ run/
 
 ## Artifact-to-System Mapping
 
-| Artifact family | System role | Public explanation |
+| Artifact family | System role | Explanation |
 | --- | --- | --- |
 | Director decisions | control layer | records why the harness extends, revises, or finishes |
 | Edge KQA | local verification view | exposes local support for step-level solving |
@@ -51,8 +50,4 @@ run/
 | Dependency certificates | audit layer | records which facts support each new answer-equivalent fact |
 | Contract reports | stabilization layer | detects answer-format and semantic instability |
 | Consensus summaries | evaluator layer | aggregates multiple solver judgments |
-| Run playback | observability layer | turns internal run artifacts into readable summaries |
-
-## Public Boundary
-
-This repository shows the artifact schema and workflow shape, not the raw data. Raw JSON outputs may contain source-derived content, generated questions, solver responses, or prompt traces, so they are not copied into this pre-release repo.
+| Run playback | observability layer | turns run artifacts into readable summaries |

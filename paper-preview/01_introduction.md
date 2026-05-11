@@ -2,8 +2,6 @@
 
 [中文](./01_introduction.zh.md)
 
-> Pre-release excerpt. This section is adapted from a work-in-progress manuscript and is not a final preprint.
-
 ## Challenging Reasoning QA as a Data Substrate
 
 High-quality data for challenging reasoning question answering (QA) is a shared substrate for both evaluating and improving large language models. It can be instantiated as benchmarks, supervised fine-tuning examples, reinforcement-learning tasks, or curriculum data for post-training.

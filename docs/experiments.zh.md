@@ -2,7 +2,7 @@
 
 [English](./experiments.md)
 
-> 本页整理自 2026-03-26 的 evaluation snapshot，用于说明 AgenQA 生成的 **Path View** 题目已经呈现出可用的 benchmark-construction signal。它不是论文最终实验表，也不代表正式 benchmark release。
+本页整理自 2026-03-26 的 evaluation snapshot，用于说明 AgenQA 生成的 **Path View** 题目已经呈现出可用的 benchmark-construction signal。
 
 AgenQA 的论文框架强调：Edge View 支持 step-level correctness control，而经过 Path-Fold 的 solver-facing Path View 用于观察 global difficulty 与 discrimination signal。因此，本页只保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，另一张展示 Qwen 系列随模型规模变化的能力梯度。
 
@@ -23,7 +23,7 @@ AgenQA 的论文框架强调：Edge View 支持 step-level correctness control�
 
 该表来自较早的一组 `37` 次 synthesis runs / `175` 道 Path View questions。它展示同一模型家族内随模型规模提升而出现的 accuracy gradient，用于说明这些题目不是随机噪声，而是能反映 solver capability differences。
 
-| Solver | All Path View accuracy | Diagnostic-subset accuracy | Public reading |
+| Solver | All Path View accuracy | Diagnostic-subset accuracy | 说明 |
 | --- | ---: | ---: | --- |
 | qwen3-4b | 48.00% | 21.55% | lower-capacity baseline |
 | qwen3-8b | 56.57% | 34.48% | mid-scale improvement |
@@ -31,5 +31,3 @@ AgenQA 的论文框架强调：Edge View 支持 step-level correctness control�
 | All solvers | 59.54% | 38.97% | family-level aggregate |
 
 两张表共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的 difficulty 与 model-discrimination signal。
-
-本页仍不公开完整原始题库、source papers、raw solver responses、consensus JSON、model API configuration 或 prompt snapshots。

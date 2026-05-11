@@ -2,8 +2,6 @@
 
 [English](./03_method.md)
 
-> 预发布节选。本节改写自进行中的论文草稿，不是最终 preprint。
-
 AgenQA 不把 challenging reasoning-QA synthesis 视为一次性生成最终难题，而是先构造一条 step-verifiable reasoning chain，再通过 Path-Fold 隐藏中间推理步骤，形成全局更困难的问题。
 
 ![Step-Verifiable Chain Growth and Path-Fold](./figures/figure1_chain_growth_path_fold.png)
@@ -130,4 +128,4 @@ AgenQA 引入了一组控制机制来处理 synthetic reasoning-QA generation �
 - supervised fine-tuning：accepted snapshots 可以导出为 Edge QA、Path-direct QA 或 mixtures；
 - reinforcement-learning-style training：Path questions 可以作为 terminal tasks，隐藏的 dependency structure 可以支持 process-level signals。
 
-在当前项目阶段，主要公开验证聚焦 benchmark construction。
+在当前项目阶段，主要验证聚焦 benchmark construction。

@@ -8,6 +8,4 @@
 2. [Background and Motivation](./02_background_motivation.zh.md)
 3. [Method: The AgenQA Framework](./03_method.zh.md)
 
-Abstract、Experiments、Conclusion 和 Appendix 暂不作为完整论文部分公开。`docs/` 中的评测页面提供面向项目展示的阶段性 evaluation snapshot。
-
-这不是最终 preprint，而是用于解释项目、技术思路和个人贡献的 public technical preview。
+这些章节对应 AgenQA 的问题定义、相关背景与方法设计；`docs/` 中的评测页面提供阶段性 evaluation snapshot。
