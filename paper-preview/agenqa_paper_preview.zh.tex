@@ -54,7 +54,7 @@
 \end{center}
 
 \begin{abstract}
-AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同时不失去可验证性。它先构造一条 step-verifiable Chain-of-KQA，再通过 Path-Fold 隐藏中间事实，形成更难的 solver-facing Path View；局部 Edge View 则保留 step-level correctness control 所需的可见支撑。系统上，AgenQA 将生成过程组织为 Director--Operator--Evaluator loop，使 generation、verification 和 repair 发生在同一显式 reasoning state 上。阶段性评测显示，AgenQA 生成的 Path View 题目能形成有效的 model-discrimination signal：SOTA solver 评测整体准确率为 84.18\%，诊断子集准确率为 51.77\%；Qwen-family 梯度评测随模型规模从 48.00\% 提升到 66.86\%。
+AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同时不失去可验证性。它先构造一条 step-verifiable Chain-of-KQA，再通过 Path-Fold 隐藏中间事实，形成更难的 solver-facing Path View；局部 Edge View 则保留 step-level correctness control 所需的可见支撑。系统上，AgenQA 将生成过程组织为 Director--Operator--Evaluator loop，使 generation、verification 和 repair 发生在同一显式 reasoning state 上。阶段性评测显示，AgenQA 生成的 Path View 题目能形成有效的 model-discrimination signal：SOTA solver 评测整体准确率为 84.18\%，诊断子集准确率为 51.77\%；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关，4B 为 48.00\%，32B 为 66.86\%。
 \end{abstract}
 
 \begin{figure}[H]
@@ -159,7 +159,7 @@ z_{r+1}=E(\Pi(S_{r+1})).
 
 \subsection{Evaluation Results}
 
-本节保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，另一张展示 Qwen 系列随模型规模变化的能力梯度。两张表共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的 difficulty 与 model-discrimination signal。
+本节保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，另一张展示 Qwen-family 内 benchmark accuracy 与模型规模/理论能力的正相关关系。两张表共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的 difficulty 与 model-discrimination signal。
 
 \begin{table}[H]
 \centering
@@ -184,7 +184,7 @@ All solvers & 2181 / 2591 & 84.18\% & 351 / 678 & 51.77\% \\
 \begin{table}[H]
 \centering
 \small
-\caption{Qwen-family scale gradient on Path View questions.}
+\caption{Qwen-family model-scale correlation on Path View questions.}
 \label{tab:qwen}
 \begin{tabular}{lrrl}
 \toprule

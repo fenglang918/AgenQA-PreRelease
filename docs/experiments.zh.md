@@ -4,7 +4,7 @@
 
 本页整理自 2026-03-26 的 evaluation snapshot，用于说明 AgenQA 生成的 **Path View** 题目已经呈现出可用的 benchmark-construction signal。
 
-AgenQA 的论文框架强调：Edge View 支持 step-level correctness control，而经过 Path-Fold 的 solver-facing Path View 用于观察 global difficulty 与 discrimination signal。因此，本页只保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，另一张展示 Qwen 系列随模型规模变化的能力梯度。
+AgenQA 的论文框架强调：Edge View 支持 step-level correctness control，而经过 Path-Fold 的 solver-facing Path View 用于观察 global difficulty 与 discrimination signal。因此，本页只保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，另一张展示 Qwen-family 内 benchmark accuracy 与模型规模/理论能力的正相关关系。
 
 ## Table 1. SOTA Solvers on Path View Questions
 
@@ -19,9 +19,9 @@ AgenQA 的论文框架强调：Edge View 支持 step-level correctness control�
 | qwen3.5-plus | 498 / 575 | 86.61% | 90 / 150 | 60.00% |
 | All solvers | 2181 / 2591 | 84.18% | 351 / 678 | 51.77% |
 
-## Table 2. Qwen-Family Scale Gradient
+## Table 2. Qwen-Family 模型规模正相关信号
 
-该表来自较早的一组 `37` 次 synthesis runs / `175` 道 Path View questions。它展示同一模型家族内随模型规模提升而出现的 accuracy gradient，用于说明这些题目不是随机噪声，而是能反映 solver capability differences。
+该表来自较早的一组 `37` 次 synthesis runs / `175` 道 Path View questions。它展示在同一模型家族内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关，用于说明这些题目不是随机噪声，而是能反映 solver capability differences。
 
 | Solver | All Path View accuracy | Diagnostic-subset accuracy | 说明 |
 | --- | ---: | ---: | --- |

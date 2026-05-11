@@ -13,7 +13,7 @@ AgenQA 研究的问题是：如何合成真正有挑战性的 scientific reasoni
 - **核心方法**：先构造一条 step-verifiable **Chain-of-KQA**，再通过 **Path-Fold** 隐藏中间 facts，形成更难的 solver-facing **Path View**。
 - **验证视角**：同一条 dependency chain 同时投影为局部 **Edge View** 和全局 **Path View**，分离 correctness control 与 difficulty amplification。
 - **系统设计**：用 **Director--Operator--Evaluator loop** 组织 init / extend / revise / finish，让 generation、verification 和 repair 发生在同一显式 reasoning state 上。
-- **阶段信号**：Path View 题目在 SOTA solver 评测中整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**；Qwen-family 梯度从 **48.00%** 提升到 **66.86%**。
+- **阶段信号**：Path View 题目在 SOTA solver 评测中整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关（4B 为 **48.00%**，32B 为 **66.86%**）。
 
 ## 推荐阅读路径
 
@@ -60,7 +60,7 @@ AgenQA 不把困难题生成当作一次性 final-question generation，而是�
 | --- | --- |
 | 研究抽象 | 将困难 QA 合成建模为 step-verifiable dependency-chain growth + Path-Fold |
 | 系统设计 | 设计 Director--Operator--Evaluator loop，以及 extend / revise / evaluator feedback 的状态转移生命周期 |
-| 评测闭环 | 组织 SOTA solver comparison、Qwen scale gradient、Edge/Path gap 和质量过滤分析 |
+| 评测闭环 | 组织 SOTA solver comparison、Qwen-family scale-correlation analysis、Edge/Path gap 和质量过滤分析 |
 | 论文表达 | 将内部系统语言改写为 public-facing paper / research framing |
 | 协作推进 | 协调多个协作方向，将上游数据合成需求拆解到 benchmark、vision、coding、training-data 等可复用方向 |
 

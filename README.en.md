@@ -13,7 +13,7 @@ AgenQA studies how to synthesize challenging scientific reasoning QA data while 
 - **Core method**: grow a step-verifiable **Chain-of-KQA**, then apply **Path-Fold** to hide intermediate facts and create a harder solver-facing **Path View**.
 - **Verification views**: project the same dependency chain into local **Edge Views** and global **Path Views**, separating correctness control from difficulty amplification.
 - **System design**: organize init / extend / revise / finish through a **Director--Operator--Evaluator loop** over an explicit reasoning state.
-- **Evaluation signal**: Path View questions reach **84.18%** aggregate accuracy across SOTA solvers and **51.77%** on a diagnostic subset; Qwen-family accuracy rises from **48.00%** to **66.86%** with scale.
+- **Evaluation signal**: Path View questions reach **84.18%** aggregate accuracy across SOTA solvers and **51.77%** on a diagnostic subset; within the Qwen family, benchmark accuracy is positively correlated with model scale / expected capability (**48.00%** for 4B and **66.86%** for 32B).
 
 ## Recommended Reading
 
@@ -58,7 +58,7 @@ I led AgenQA from **November 2025 to March 2026**. My main work covered:
 | --- | --- |
 | Research abstraction | Framed difficult QA synthesis as step-verifiable dependency-chain growth plus Path-Fold |
 | System design | Designed the Director--Operator--Evaluator loop and the extend / revise / evaluator-feedback lifecycle |
-| Evaluation loop | Organized SOTA solver comparison, Qwen scale gradient, Edge/Path gap analysis, and quality filtering |
+| Evaluation loop | Organized SOTA solver comparison, Qwen-family scale-correlation analysis, Edge/Path gap analysis, and quality filtering |
 | Paper framing | Translated internal system language into public-facing paper / research framing |
 | Collaboration | Coordinated multiple collaboration tracks across benchmark, vision, coding, and training-data directions |
 
