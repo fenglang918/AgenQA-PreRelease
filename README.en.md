@@ -2,7 +2,7 @@
 
 **Project showcase for AgenQA: agentic data synthesis and benchmark construction for scientific reasoning QA.**
 
-[中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Implementation Preview](./code-preview/) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.md) · [Architecture](./docs/architecture.md)
+[中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Prompt Files](./prompts/) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.md) · [Architecture](./docs/architecture.md)
 
 ## Paper Preview
 
@@ -21,7 +21,7 @@ The current showcase focuses on **benchmark construction and model diagnosis**. 
 ## Supporting Pages
 
 - [Paper Markdown Preview](./paper-preview/README.en.md)
-- [Implementation Preview: Prompt Contracts and State Interfaces](./code-preview/)
+- [Prompt Files](./prompts/)
 - [Architecture Notes](./docs/architecture.md)
 - [Evaluation Results](./docs/experiments.md)
 - [Representative Sample Questions](./docs/examples.md)

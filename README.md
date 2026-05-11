@@ -2,7 +2,7 @@
 
 **AgenQA 项目展示：面向科学推理 QA 的 agentic data synthesis 与 benchmark construction。**
 
-[English](./README.en.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [实现预览](./code-preview/) · [评测结果](./docs/experiments.zh.md) · [样例题](./docs/examples.zh.md) · [系统架构](./docs/architecture.zh.md)
+[English](./README.en.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Prompt 文件](./prompts/) · [评测结果](./docs/experiments.zh.md) · [样例题](./docs/examples.zh.md) · [系统架构](./docs/architecture.zh.md)
 
 ## Paper Preview
 
@@ -31,7 +31,7 @@ AgenQA 研究的问题是：如何合成具有挑战性的 scientific reasoning 
 ## Supporting Pages
 
 - [论文 Markdown 预览](./paper-preview/)
-- [实现预览：Prompt Contracts and State Interfaces](./code-preview/)
+- [Prompt 文件](./prompts/)
 - [系统架构说明](./docs/architecture.zh.md)
 - [阶段性评测结果](./docs/experiments.zh.md)
 - [代表性样例题](./docs/examples.zh.md)
