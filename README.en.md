@@ -2,9 +2,9 @@
 
 **Pre-release project showcase for AgenQA: agentic data synthesis and benchmark construction for scientific reasoning QA.**
 
-[中文说明](./README.md) · [Paper Preview](./paper-preview/README.en.md) · [Architecture](./docs/architecture.md) · [Experiments](./docs/experiments.md) · [Artifact Map](./docs/artifact-map.md)
+[中文说明](./README.md) · [Paper Preview](./paper-preview/README.en.md) · [Architecture](./docs/architecture.md) · [Evaluation Results](./docs/experiments.md) · [Artifact Map](./docs/artifact-map.md)
 
-> This repository is a public hiring-context showcase. It explains the research problem, method, system design, and redacted evaluation signals behind AgenQA. The source code, raw benchmark items, full prompts, source materials, and private collaboration artifacts are not public in this pre-release repository.
+> This repository is a public hiring-context showcase. It explains the research problem, method, system design, and informal evaluation signals behind AgenQA. The source code, full prompts, source materials, and private collaboration artifacts are not public in this pre-release repository.
 
 ## Project Snapshot
 
@@ -27,7 +27,7 @@ This repository includes:
 
 - a GitHub-readable preview of the current paper draft's first three substantive sections;
 - public-facing architecture notes for the AgenQA synthesis harness;
-- redacted aggregate experiment summaries and table templates;
+- informal internal evaluation results and model comparison tables;
 - a safe artifact map showing what a run produces without exposing raw questions or source data;
 - selected method figures used as visual explanation references.
 
@@ -63,12 +63,12 @@ These pages are adapted from a work-in-progress manuscript. They are intended to
 
 ## Preliminary Evidence
 
-The internal project has run multiple synthesis/evaluation rounds. The public evidence here is intentionally aggregate and redacted:
+The internal project has run multiple synthesis/evaluation rounds. The public evidence here comes from internal evaluation snapshots and should not be read as the paper's final experiment table:
 
-- 37 synthesis runs / 175 generated QA candidates in an earlier validation phase;
-- a later 10-paper batch run under the paper-seed 5-strong configuration, with 9/10 successful tasks and one truncation failure;
-- Qwen-family scale-gradient checks and SOTA comparison used as preliminary discriminativity evidence;
-- Edge/Path analysis used to separate local step solvability from hidden-chain reconstruction difficulty.
+- Batch 1 evaluates 37 synthesis runs / 175 generated path-question candidates;
+- in Batch 1, SOTA `ALL_MODELS` full-set accuracy is `71.31%`, compared with `59.54%` for the QWEN group;
+- on the hard subset, SOTA `ALL_MODELS` accuracy is `47.71%`, compared with `38.97%` for the QWEN group;
+- Batch 2 scales the stronger-contract setting to 96 runs / 547 path questions, with `84.18%` full-set `ALL_MODELS` accuracy and `51.77%` on the subset containing at least one F.
 
 See [Experiments](./docs/experiments.md) for the public table form and caveats.
 

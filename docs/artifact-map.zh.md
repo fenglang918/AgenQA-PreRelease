@@ -12,7 +12,7 @@ AgenQA 生成的不是一个孤立 QA pair。每次 run 都会记录中间状态
 
 ```text
 run/
-  run_config.json                  # 脱敏配置快照
+  run_config.json                  # 公开配置摘要
   state.json                       # 最终 chain state，本仓库不公开
   run_playback.md                  # 人类可读 run summary
   00_Prompts_Snapshot/             # public preview 不发布

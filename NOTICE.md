@@ -13,4 +13,4 @@ The following materials are not released here:
 - raw solver outputs;
 - private collaboration, governance, or project-management records.
 
-The paper preview and experiment summaries are preliminary, redacted, and intended for project explanation. They should not be treated as a final preprint, benchmark release, or reproducible artifact package.
+The paper preview and evaluation summaries are preliminary and intended for project explanation. They include informal internal evaluation snapshots, but should not be treated as a final preprint, benchmark release, or reproducible artifact package.

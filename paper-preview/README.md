@@ -8,6 +8,6 @@
 2. [Background and Motivation](./02_background_motivation.zh.md)
 3. [Method: The AgenQA Framework](./03_method.zh.md)
 
-Abstract、Experiments、Conclusion 和 Appendix 暂不作为完整论文部分公开。`docs/` 中的实验页面只提供面向简历展示的脱敏 aggregate evidence。
+Abstract、Experiments、Conclusion 和 Appendix 暂不作为完整论文部分公开。`docs/` 中的评测页面提供面向项目展示的非正式内部评测快照。
 
 这不是最终 preprint，而是用于解释项目、技术思路和个人贡献的 public technical preview。

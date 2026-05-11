@@ -12,7 +12,7 @@ AgenQA is designed so that a generated item is not only a final QA pair. Each ru
 
 ```text
 run/
-  run_config.json                  # redacted config snapshot
+  run_config.json                  # public config summary
   state.json                       # final chain state, not public here
   run_playback.md                  # human-readable run summary
   00_Prompts_Snapshot/             # not released in public preview
