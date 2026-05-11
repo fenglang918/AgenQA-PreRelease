@@ -1,0 +1,231 @@
+\documentclass[11pt]{ctexart}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  urlcolor=blue
+}
+
+\definecolor{agenblue}{RGB}{28,83,168}
+\definecolor{agengray}{RGB}{90,96,110}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.58em}
+\setlength{\headheight}{14pt}
+\setlist[itemize]{leftmargin=1.5em,itemsep=0.25em,topsep=0.25em}
+\setlist[enumerate]{leftmargin=1.6em,itemsep=0.25em,topsep=0.25em}
+\allowdisplaybreaks
+\sloppy
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textcolor{agengray}{AgenQA Pre-Release}}
+\rhead{\textcolor{agengray}{Representative Path View Samples}}
+\cfoot{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newcommand{\sampletitle}[2]{
+  \section*{\textcolor{agenblue}{#1}}
+  \textbf{Subject:} #2
+  \vspace{0.25em}
+  \hrule
+  \vspace{0.6em}
+}
+
+\newcommand{\focus}[1]{\textbf{Path View focus.} #1}
+\newcommand{\why}[1]{\textbf{Why this sample matters.} #1}
+
+\begin{document}
+
+{\LARGE \textbf{AgenQA 代表性 Path View 样例题}}
+
+\vspace{0.4em}
+
+{\large Selected solver-facing questions for the AgenQA pre-release showcase}
+
+\vspace{0.8em}
+
+本文展示三道 representative \textbf{Path View} sample questions，用于说明 AgenQA 生成题目的形态与难度来源。它们不是完整 benchmark release，也不附带 source papers、raw solver responses、prompt snapshots 或 run artifacts。
+
+这些样例都属于 solver-facing Path View：题面只给出最终求解所需的可见条件，中间 dependency path 被折叠，解题者需要自行恢复关键推理步骤。
+
+\sampletitle{Sample 1. FedAvg 收敛界中的学习率选择}{Federated and Distributed Learning}
+
+\focus{从 FedAvg 的 smoothness、non-IID 梯度异质性和通信轮数条件出发，恢复收敛上界中的学习率优化步骤。}
+
+\textbf{Solver-facing question.}
+
+给定 FedAvg 设定：
+\begin{itemize}
+  \item 全局目标函数为
+  \[
+  F(w)=\sum_k \frac{n_k}{n}F_k(w),
+  \]
+  其中 $F_k(w)$ 是客户端 $k$ 的局部经验损失，$n_k=|D_k|$，且 $n=\sum_k n_k$。
+  \item 每个客户端从 $w^t$ 出发，以常数学习率 $\eta>0$ 执行 $E>1$ 步本地 SGD，再由服务器按权重平均聚合。
+  \item 客户端数据 non-IID，梯度异质性由加权 RMS 量 $G$ 表示：
+  \[
+  G=\left(\sum_k \frac{n_k}{n}\|\nabla F_k(w)-\nabla F(w)\|^2\right)^{1/2}\geq 0.
+  \]
+  \item 全局损失满足 $L$-smoothness：
+  \[
+  F(w')\leq F(w)+\langle \nabla F(w),w'-w\rangle+\frac{L}{2}\|w'-w\|^2.
+  \]
+  \item 一共进行 $T$ 轮全客户端参与通信，$E,G,L,T$ 均为正数。
+\end{itemize}
+
+要求求出使时间平均平方梯度范数上界最小的学习率 $\eta^\ast$，并给出优化后的最紧上界。最终答案只能使用 $F(w^0)-F(w^\ast)$、$L$、$E$、$G$、$T$。
+
+\textbf{Reference answer.}
+\[
+\boxed{
+\eta^\ast=
+\sqrt{\frac{2[F(w^0)-F(w^\ast)]}{L E^2G^2T}}
+}
+\]
+\[
+\boxed{
+\frac{1}{T}\sum_{t=0}^{T-1}\|\nabla F(w^t)\|^2
+\leq
+2\sqrt{\frac{2LG^2[F(w^0)-F(w^\ast)]}{T}}
+}
+\]
+
+\why{题面不直接给出中间收敛界的单步优化式，而要求 solver 从 FedAvg 设定中恢复出学习率选择与优化后上界。}
+
+\sampletitle{Sample 2. Pointer-Generator Coverage Loss 的梯度路径}{Natural Language Processing / Abstractive Summarization}
+
+\focus{在 pointer-generator + coverage loss 结构中，恢复编码器隐藏状态 $h_i$ 到总损失的两条梯度路径。}
+
+\textbf{Solver-facing question.}
+
+给定软注意力 encoder-decoder：
+\[
+e_{t,i}=\mathrm{score}(s_t,h_i),\qquad
+a_{t,i}=\frac{\exp(e_{t,i})}{\sum_j\exp(e_{t,j})},\qquad
+c_t=\sum_i a_{t,i}h_i.
+\]
+
+组合训练损失为
+\[
+L_{\mathrm{total}}=L_{\mathrm{NLL}}+\lambda L_{\mathrm{cov}},
+\]
+其中
+\[
+\mathrm{cov}_{t,i}=\sum_{t'<t}a_{t',i},\qquad
+L_{\mathrm{cov}}=\sum_t\sum_i\min(a_{t,i},\mathrm{cov}_{t,i}).
+\]
+
+编码器隐藏状态 $h_i$ 是一个向量，$\lambda\geq0$ 是固定标量，$\partial e_{t,i}/\partial h_i$ 表示标量 score 关于 $h_i$ 的向量值 Jacobian。由于 score 函数未固定，所以保持为未展开形式。
+
+要求推导 $\partial L_{\mathrm{total}}/\partial h_i$ 的单一闭式符号表达。答案应同时捕捉：
+\begin{itemize}
+  \item $h_i\rightarrow e_{t,i}\rightarrow a_{t,*}$ 的 score path；
+  \item $h_i\rightarrow c_t\rightarrow L_{\mathrm{NLL}}$ 的 context path。
+\end{itemize}
+
+\textbf{Reference answer.}
+\[
+\boxed{
+\frac{\partial L_{\text{total}}}{\partial h_i}
+=
+\sum_t
+\left[
+a_{t,i}\left(g_{t,i}-\sum_j a_{t,j}g_{t,j}\right)
+\frac{\partial e_{t,i}}{\partial h_i}
++
+a_{t,i}\frac{\partial L_{\text{NLL}}}{\partial c_t}
+\right]
+}
+\]
+
+\why{题目要求 solver 把 softmax Jacobian、coverage dependency 和 context-vector path 合并，而不是只回答一个局部梯度公式。}
+
+\sampletitle{Sample 3. TRADES 鲁棒训练目标的外层与内层条件}{Machine Learning Security / Adversarial Robustness}
+
+\focus{从 TRADES-style robust objective 出发，同时恢复外层 envelope-theorem gradient 与内层 PGD / KKT 条件。}
+
+\textbf{Solver-facing question.}
+
+给定参数化深度神经网络 $f_\theta$，可行扰动集合为闭 $L_p$ 球：
+\[
+\{\delta:\|\delta\|_p\leq\varepsilon\}.
+\]
+
+TRADES-style 目标为：
+\[
+\min_{\theta}
+\mathbb{E}_{(x,y)\sim\mu}
+\left[
+L(f_\theta(x),y)
++
+\beta\max_{\|\delta\|_p\leq\varepsilon}
+\mathrm{KL}\bigl(f_\theta(x)\|f_\theta(x+\delta)\bigr)
+\right].
+\]
+
+其中 $\mathrm{KL}(f_\theta(x)\|f_\theta(x+\delta))$ 以 clean input distribution 为第一参数，以 perturbed input distribution 为第二参数。$\delta^\ast(\theta)$ 表示内层 KL 最大化问题的解。
+
+要求合并推导：
+\begin{enumerate}
+  \item $\nabla_\theta\max_\delta\mathrm{KL}(\cdot)$ 的 envelope-theorem 形式，以及 $\theta^\ast$ 处外层驻点条件；
+  \item 内层关于 $\delta$ 的归一化 PGD 更新规则；
+  \item 收敛时的 KKT 条件，包括梯度驻点、互补松弛和可行性。
+\end{enumerate}
+
+\textbf{Reference answer.}
+\[
+\nabla_\theta
+\max_{\|\delta\|_p\leq\varepsilon}
+\mathrm{KL}\bigl(f_\theta(x)\|f_\theta(x+\delta)\bigr)
+=
+\nabla_\theta
+\mathrm{KL}\bigl(f_\theta(x)\|f_\theta(x+\delta^\ast(\theta))\bigr).
+\]
+\[
+\nabla_\theta\mathbb{E}_{(x,y)\sim\mu}
+\left[L(f_{\theta^\ast}(x),y)\right]
++
+\beta\nabla_\theta\mathbb{E}_{(x,y)\sim\mu}
+\left[
+\mathrm{KL}\bigl(f_{\theta^\ast}(x)\|f_{\theta^\ast}(x+\delta^\ast(\theta^\ast))\bigr)
+\right]
+=0.
+\]
+\[
+\delta_{t+1}
+=
+\Pi_{\|\cdot\|_p\leq\varepsilon}
+\left(
+\delta_t+
+\alpha
+\frac{
+\nabla_\delta\mathrm{KL}\bigl(f_\theta(x)\|f_\theta(x+\delta_t)\bigr)
+}{
+\left\|
+\nabla_\delta\mathrm{KL}\bigl(f_\theta(x)\|f_\theta(x+\delta_t)\bigr)
+\right\|_p
+}
+\right).
+\]
+\[
+\nabla_\delta\mathrm{KL}\bigl(f_\theta(x)\|f_\theta(x+\delta^\ast)\bigr)
+=
+\lambda\nabla_\delta\|\delta^\ast\|_p,\qquad
+\lambda\geq0.
+\]
+\[
+\lambda(\|\delta^\ast\|_p-\varepsilon)=0,\qquad
+\|\delta^\ast\|_p\leq\varepsilon.
+\]
+
+\why{题目覆盖 optimization / robustness reasoning：solver 需要同时处理外层参数优化、内层 adversarial maximization 和 constrained optimality conditions。}
+
+\end{document}

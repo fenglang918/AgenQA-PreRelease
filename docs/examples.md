@@ -2,7 +2,11 @@
 
 [中文](./examples.zh.md)
 
-The default sample page is maintained in Chinese because these public examples are intended primarily for domestic hiring readers. See [代表性样例题](./examples.zh.md) for three selected solver-facing **Path View** questions:
+The full sample questions are provided as a LaTeX-rendered PDF:
+
+**[Preview / Download PDF: examples.pdf](./examples.pdf)**
+
+The default Chinese entry is [代表性样例题](./examples.zh.md). The PDF includes three selected solver-facing **Path View** questions:
 
 - FedAvg convergence-bound optimization;
 - pointer-generator coverage-loss gradient derivation;
