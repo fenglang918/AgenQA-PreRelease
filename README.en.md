@@ -2,7 +2,7 @@
 
 **Pre-release project showcase for AgenQA: agentic data synthesis and benchmark construction for scientific reasoning QA.**
 
-[中文说明](./README.md) · [Paper Preview](./paper-preview/README.en.md) · [Architecture](./docs/architecture.md) · [Evaluation Results](./docs/experiments.md) · [Artifact Map](./docs/artifact-map.md)
+[中文说明](./README.md) · [Paper Preview](./paper-preview/README.en.md) · [Architecture](./docs/architecture.md) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.md) · [Artifact Map](./docs/artifact-map.md)
 
 > This repository is a public hiring-context showcase. It explains the research problem, method, system design, and evaluation snapshots behind AgenQA. The source code, full prompts, source materials, and private collaboration artifacts are not public in this pre-release repository.
 
@@ -28,6 +28,7 @@ This repository includes:
 - a GitHub-readable preview of the current paper draft's first three substantive sections;
 - public-facing architecture notes for the AgenQA synthesis harness;
 - evaluation snapshots and model comparison tables;
+- three representative Path View sample questions;
 - a safe artifact map showing what a run produces without exposing raw questions or source data;
 - selected method figures used as visual explanation references.
 
@@ -36,7 +37,7 @@ This repository includes:
 This repository does **not** include:
 
 - implementation source code;
-- raw generated benchmark items or solver outputs;
+- the full raw benchmark set or solver outputs;
 - full prompts or prompt snapshots;
 - source papers, source documents, or private data;
 - collaborator governance notes, internal project management records, or private decision logs.

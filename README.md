@@ -2,7 +2,7 @@
 
 **AgenQA 的预发布展示仓库：面向科学推理 QA 的 agentic data synthesis 与 benchmark construction。**
 
-[English](./README.en.md) · [论文预览](./paper-preview/) · [系统架构](./docs/architecture.zh.md) · [评测结果](./docs/experiments.zh.md) · [产物地图](./docs/artifact-map.zh.md)
+[English](./README.en.md) · [论文预览](./paper-preview/) · [系统架构](./docs/architecture.zh.md) · [评测结果](./docs/experiments.zh.md) · [样例题](./docs/examples.zh.md) · [产物地图](./docs/artifact-map.zh.md)
 
 > 这是一个面向投简历和项目展示的 public repo。它公开 AgenQA 的研究问题、方法动机、系统设计和阶段性评测信号。源码、完整 prompt、真实 source materials 和私有协作材料暂不公开。
 
@@ -28,6 +28,7 @@ AgenQA 研究的问题是：如何合成具有挑战性的 scientific reasoning 
 - 当前论文前三个主体部分的 GitHub-readable preview；
 - 面向外部读者的 AgenQA synthesis harness 架构说明；
 - 阶段性评测结果和模型对比表；
+- 三道 representative Path View sample questions；
 - 不暴露原始题目/源码的 run artifact map；
 - 方法图和系统图。
 
@@ -36,7 +37,7 @@ AgenQA 研究的问题是：如何合成具有挑战性的 scientific reasoning 
 本仓库不包含：
 
 - 实现源码；
-- 原始生成题目或 solver raw outputs；
+- 完整原始题库或 solver raw outputs；
 - 完整 prompts 或 prompt snapshots；
 - source papers、source documents 或私有数据；
 - 协作治理、人员判断、项目管理和私有决策材料。
