@@ -8,6 +8,6 @@ This folder contains a GitHub-readable preview of the current AgenQA manuscript'
 2. [Background and Motivation](./02_background_motivation.md)
 3. [Method: The AgenQA Framework](./03_method.md)
 
-The abstract, experiments, conclusion, and appendix are intentionally not included as full paper sections in this public pre-release repository. The evaluation page in `docs/` provides an informal internal evaluation snapshot for project demonstration.
+The abstract, experiments, conclusion, and appendix are intentionally not included as full paper sections in this public pre-release repository. The evaluation page in `docs/` provides a stage-level evaluation snapshot for project demonstration.
 
 This is not a final preprint. It is a public technical preview used to explain the project and my role before source-code or benchmark release.

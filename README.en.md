@@ -4,7 +4,7 @@
 
 [中文说明](./README.md) · [Paper Preview](./paper-preview/README.en.md) · [Architecture](./docs/architecture.md) · [Evaluation Results](./docs/experiments.md) · [Artifact Map](./docs/artifact-map.md)
 
-> This repository is a public hiring-context showcase. It explains the research problem, method, system design, and informal evaluation signals behind AgenQA. The source code, full prompts, source materials, and private collaboration artifacts are not public in this pre-release repository.
+> This repository is a public hiring-context showcase. It explains the research problem, method, system design, and evaluation snapshots behind AgenQA. The source code, full prompts, source materials, and private collaboration artifacts are not public in this pre-release repository.
 
 ## Project Snapshot
 
@@ -27,7 +27,7 @@ This repository includes:
 
 - a GitHub-readable preview of the current paper draft's first three substantive sections;
 - public-facing architecture notes for the AgenQA synthesis harness;
-- informal internal evaluation results and model comparison tables;
+- evaluation snapshots and model comparison tables;
 - a safe artifact map showing what a run produces without exposing raw questions or source data;
 - selected method figures used as visual explanation references.
 
@@ -63,12 +63,12 @@ These pages are adapted from a work-in-progress manuscript. They are intended to
 
 ## Preliminary Evidence
 
-The internal project has run multiple synthesis/evaluation rounds. The public evidence here comes from internal evaluation snapshots and should not be read as the paper's final experiment table:
+AgenQA has gone through multiple synthesis/evaluation rounds. The public evidence here illustrates difficulty and model-discrimination signal on solver-facing Path View questions; it should not be read as the paper's final experiment table:
 
-- Batch 1 evaluates 37 synthesis runs / 175 generated path-question candidates;
-- in Batch 1, SOTA `ALL_MODELS` full-set accuracy is `71.31%`, compared with `59.54%` for the QWEN group;
-- on the hard subset, SOTA `ALL_MODELS` accuracy is `47.71%`, compared with `38.97%` for the QWEN group;
-- Batch 2 scales the stronger-contract setting to 96 runs / 547 path questions, with `84.18%` full-set `ALL_MODELS` accuracy and `51.77%` on the subset containing at least one F.
+- SOTA solvers are evaluated under a stronger problem-specification setting over 96 synthesis runs / 547 solver-facing Path View questions;
+- this SOTA evaluation reaches `84.18%` overall accuracy and `51.77%` diagnostic-subset accuracy;
+- the Qwen-family evaluation covers 37 synthesis runs / 175 Path View questions;
+- the Qwen family shows a clear scale gradient: `qwen3-4b` at `48.00%`, `qwen3-8b` at `56.57%`, and `Qwen3-32B` at `66.86%`.
 
 See [Experiments](./docs/experiments.md) for the public table form and caveats.
 

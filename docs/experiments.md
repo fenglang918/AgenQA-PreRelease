@@ -1,35 +1,35 @@
-# Informal Evaluation Results
+# Evaluation Snapshot
 
 [中文](./experiments.zh.md)
 
-> This page summarizes an internal evaluation snapshot from the March 26, 2026 project report. It is intended to show the current evidence behind AgenQA as a benchmark-synthesis framework. It is not the final experiment table for the paper and is not a formal benchmark release.
+> This page summarizes an evaluation snapshot from the March 26, 2026 project report. It shows that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal. It is not the final experiment table for the paper and is not a formal benchmark release.
 
-The most useful public signal is simple: one table shows SOTA evaluation under the stronger-contract setting, and the other shows the Qwen-family scale gradient.
+The paper framing of AgenQA separates the roles of Edge and Path views: Edge Views support step-level correctness control, while Path-Fold creates solver-facing Path View questions whose solver distributions reveal global difficulty and discrimination signal. This page therefore keeps only two tables: one for strong solvers on Path View questions, and one for the Qwen-family scale gradient.
 
-## Table 1. SOTA Evaluation Results
+## Table 1. SOTA Solvers on Path View Questions
 
-Batch 2 uses stronger problem contracts and covers `96` runs / `547` path questions. The hard subset contains questions where at least one model received an `F`.
+This table comes from a stronger problem-specification setting where problem constraints, answer equivalence, and output boundaries were written more explicitly. The evaluation covers `96` synthesis runs / `547` solver-facing Path View questions. The diagnostic subset contains questions missed by at least one solver and highlights the more discriminative region of the benchmark.
 
-| Model | Full set | Full accuracy | Hard subset | Hard accuracy |
+| Solver | All Path View questions | Accuracy | Diagnostic subset | Diagnostic accuracy |
 | --- | ---: | ---: | ---: | ---: |
 | claude-sonnet-4-6 | 466 / 574 | 81.18% | 63 / 150 | 42.00% |
 | gemini-3.1-pro-preview | 254 / 294 | 86.39% | 47 / 78 | 60.26% |
 | glm-5 | 494 / 574 | 86.06% | 89 / 150 | 59.33% |
 | gpt-5.4-2026-03-05 | 469 / 574 | 81.71% | 62 / 150 | 41.33% |
 | qwen3.5-plus | 498 / 575 | 86.61% | 90 / 150 | 60.00% |
-| ALL_MODELS | 2181 / 2591 | 84.18% | 351 / 678 | 51.77% |
+| All solvers | 2181 / 2591 | 84.18% | 351 / 678 | 51.77% |
 
-## Table 2. Qwen Scale Gradient
+## Table 2. Qwen-Family Scale Gradient
 
-Batch 1 uses `37` synthesis runs / `175` path questions and shows the within-family Qwen gradient on the full set and hard subset.
+This table comes from an earlier set of `37` synthesis runs / `175` Path View questions. It shows an accuracy gradient within the same model family as model scale increases, suggesting that the tasks reflect solver capability differences rather than random noise.
 
-| Model | Full accuracy | Hard-subset accuracy | Signal |
+| Solver | All Path View accuracy | Diagnostic-subset accuracy | Public reading |
 | --- | ---: | ---: | --- |
-| qwen3-4b | 48.00% | 21.55% | small-model baseline |
+| qwen3-4b | 48.00% | 21.55% | lower-capacity baseline |
 | qwen3-8b | 56.57% | 34.48% | mid-scale improvement |
 | Qwen3-32B | 66.86% | 50.00% | larger-model improvement |
-| ALL_MODELS | 59.54% | 38.97% | Qwen group aggregate |
+| All solvers | 59.54% | 38.97% | family-level aggregate |
 
-Together, the two tables show that AgenQA path questions retain a measurable hard subset even for strong models, while also producing a clear accuracy gradient within the Qwen family.
+Together, the two tables show that AgenQA's Path-Fold does more than create longer problem statements: it preserves a generator-side dependency state while producing solver-facing benchmark items with measurable difficulty and model-discrimination signal.
 
 This page still does not release the full raw benchmark set, source papers, raw solver responses, consensus JSON, model API configuration, or prompt snapshots.

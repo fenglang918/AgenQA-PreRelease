@@ -4,7 +4,7 @@
 
 [English](./README.en.md) · [论文预览](./paper-preview/) · [系统架构](./docs/architecture.zh.md) · [评测结果](./docs/experiments.zh.md) · [产物地图](./docs/artifact-map.zh.md)
 
-> 这是一个面向投简历和项目展示的 public repo。它公开 AgenQA 的研究问题、方法动机、系统设计和非正式评测信号。源码、完整 prompt、真实 source materials 和私有协作材料暂不公开。
+> 这是一个面向投简历和项目展示的 public repo。它公开 AgenQA 的研究问题、方法动机、系统设计和阶段性评测信号。源码、完整 prompt、真实 source materials 和私有协作材料暂不公开。
 
 ## Project Snapshot
 
@@ -27,7 +27,7 @@ AgenQA 研究的问题是：如何合成具有挑战性的 scientific reasoning 
 
 - 当前论文前三个主体部分的 GitHub-readable preview；
 - 面向外部读者的 AgenQA synthesis harness 架构说明；
-- 非正式内部评测结果和模型对比表；
+- 阶段性评测结果和模型对比表；
 - 不暴露原始题目/源码的 run artifact map；
 - 方法图和系统图。
 
@@ -63,12 +63,12 @@ AgenQA 研究的问题是：如何合成具有挑战性的 scientific reasoning 
 
 ## Preliminary Evidence
 
-内部项目已经完成多轮 synthesis / evaluation。这里公开的证据来自阶段性内部评测快照，不作为论文最终实验结果：
+AgenQA 已经完成多轮 synthesis / evaluation。这里公开的证据用于说明 Path View 题目的 difficulty 与 model-discrimination signal，不作为论文最终实验结果：
 
-- 第一批 path 题评测包含 37 次 synthesis runs / 175 道 generated QA candidates；
-- 第一批数据中，SOTA 组 `ALL_MODELS` 全量准确率为 `71.31%`，QWEN 组为 `59.54%`；
-- hard subset 上，SOTA 组 `ALL_MODELS` 为 `47.71%`，QWEN 组为 `38.97%`；
-- 第二批优化 contract 后扩展到 96 次 run / 547 道 path 题，`ALL_MODELS` 全量准确率为 `84.18%`，存在 F 的题目子集为 `51.77%`。
+- SOTA solvers 在更明确的问题规约版本上评测了 96 次 synthesis runs / 547 道 solver-facing Path View questions；
+- 这组 SOTA 评测的整体准确率为 `84.18%`，诊断子集准确率为 `51.77%`；
+- Qwen-family 评测覆盖 37 次 synthesis runs / 175 道 Path View questions；
+- Qwen 系列内呈现清晰梯度：`qwen3-4b` 为 `48.00%`，`qwen3-8b` 为 `56.57%`，`Qwen3-32B` 为 `66.86%`。
 
 详见 [评测结果](./docs/experiments.zh.md)。
 
