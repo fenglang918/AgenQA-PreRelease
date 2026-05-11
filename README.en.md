@@ -1,47 +1,65 @@
 # AgenQA-PreRelease
 
-**Project showcase for AgenQA: agentic data synthesis and benchmark construction for scientific reasoning QA.**
+**AgenQA project preview for AI research / RA hiring: agentic data synthesis for scientific reasoning QA benchmark construction.**
 
-[中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Prompt Files](./prompts/) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.md) · [Architecture](./docs/architecture.md)
+[中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.pdf) · [Architecture](./docs/architecture.md) · [Prompt Files](./prompts/)
 
-## Paper Preview
+## 30-Second Snapshot
 
-The main showcase document is now a LaTeX-rendered PDF:
+AgenQA studies how to synthesize challenging scientific reasoning QA data while keeping the generation process verifiable, repairable, and evaluable.
 
-**[Open AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf)**
+- **Core method**: grow a step-verifiable **Chain-of-KQA**, then apply **Path-Fold** to hide intermediate facts and create a harder solver-facing **Path View**.
+- **Verification views**: project the same dependency chain into local **Edge Views** and global **Path Views**, separating correctness control from difficulty amplification.
+- **System design**: organize init / extend / revise / finish through a **Director--Operator--Evaluator loop** over an explicit reasoning state.
+- **Evaluation signal**: Path View questions reach **84.18%** aggregate accuracy across SOTA solvers and **51.77%** on a diagnostic subset; Qwen-family accuracy rises from **48.00%** to **66.86%** with scale.
 
-The PDF follows a paper-style structure: title, abstract, introduction, background and motivation, method, two evaluation tables, three representative sample questions, conclusion, and references.
+## Recommended Reading
 
-## Project Snapshot
+Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf). It contains the most polished paper-style overview: title, abstract, Motivation and Core Idea, AgenQA Framework, Experimental Showcase, Conclusion, and References.
 
-AgenQA studies how to synthesize challenging scientific reasoning QA data without losing verifiability. Instead of asking a model to write a hard final question in one shot, AgenQA first grows a **step-verifiable Chain-of-KQA**, then uses **Path-Fold** to hide intermediate facts and create a harder end-to-end **Path View** while keeping local **Edge Views** available for verification.
+| What to inspect | Entry |
+| --- | --- |
+| Paper-style project overview | [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) |
+| Two core evaluation tables | [docs/experiments.md](./docs/experiments.md) |
+| Three representative sample questions | [docs/examples.pdf](./docs/examples.pdf) |
+| Architecture and system framing | [docs/architecture.md](./docs/architecture.md) |
+| Prompt role boundaries | [prompts/](./prompts/) |
 
-The current showcase focuses on **benchmark construction and model diagnosis**. Evaluation snapshots show that AgenQA-generated Path View questions provide difficulty and model-discrimination signal.
+## Core Idea
 
-## Supporting Pages
+![AgenQA overview](./paper-preview/figures/figure1_chain_growth_path_fold.png)
 
-- [Paper Markdown Preview](./paper-preview/README.en.md)
-- [Prompt Files](./prompts/)
-- [Architecture Notes](./docs/architecture.md)
-- [Evaluation Results](./docs/experiments.md)
-- [Representative Sample Questions](./docs/examples.md)
-- [Artifact Map](./docs/artifact-map.md)
+AgenQA does not treat difficult-question generation as one-shot final-question writing. It turns synthesis into a controlled object:
+
+1. maintain an auditable dependency chain on the generation side;
+2. attach local certificates so Edge Views can check whether each transition is well-posed;
+3. hide intermediate dependencies through Path-Fold so the solver must recover the full reasoning path;
+4. use evaluator feedback to drive revision instead of relying only on post-hoc filtering.
+
+## Technical Highlights
+
+- **Step-Verifiable Dependency Chains**: each step binds visible premises, a local question, an answer-equivalent fact, and a dependency certificate.
+- **Edge / Path Views**: Edge Views support local verification; Path Views support global challenge.
+- **Path-Fold**: folds intermediate facts while preserving answer equivalence and path integrity.
+- **Agentic State-Transition Harness**: Director chooses operations, Operators edit chain state, and Evaluator reads solver / consensus / contract signals.
+- **Scalable and Extensible Design**: extend, revise, evaluation, and routing share one state interface, making chain length, solver ensembles, and domain adapters replaceable.
 
 ## My Role
 
-I led AgenQA as an academic collaboration project from November 2025 to March 2026. My work covered:
+I led AgenQA from **November 2025 to March 2026**. My main work covered:
 
-- **Research abstraction**: framed difficult QA synthesis as step-verifiable dependency-chain growth plus Path-Fold, with Edge/Path views separating correctness control from difficulty amplification.
-- **System design**: designed the Director--Operator--Evaluator loop, including extend/revise operations, solver feedback, consensus, answer/world contracts, and replayable artifacts.
-- **Evaluation loop**: organized the benchmark-validation story around model gradients, Edge/Path gaps, depth-conditioned behavior, and quality filtering.
-- **Team coordination**: coordinated multiple RA sub-directions and translated upstream data-synthesis needs into reusable benchmark, vision, coding, and training-data tracks.
+| Area | Work |
+| --- | --- |
+| Research abstraction | Framed difficult QA synthesis as step-verifiable dependency-chain growth plus Path-Fold |
+| System design | Designed the Director--Operator--Evaluator loop and the extend / revise / evaluator-feedback lifecycle |
+| Evaluation loop | Organized SOTA solver comparison, Qwen scale gradient, Edge/Path gap analysis, and quality filtering |
+| Paper framing | Translated internal system language into public paper / hiring-showcase research framing |
+| Collaboration | Coordinated multiple RA sub-directions across benchmark, vision, coding, and training-data tracks |
 
-## Technical Ownership
+## Repository Map
 
-| Layer | What AgenQA Builds | My contribution |
-| --- | --- | --- |
-| Method | Chain-of-KQA, Edge/Path views, Path-Fold | Formalized the step-to-global synthesis object and paper framing |
-| Agent loop | Director, Operators, Evaluator, revise loop | Designed the controlled state-transition lifecycle |
-| Verification | multi-strong solvers, consensus, contracts | Connected solver feedback to acceptance and repair decisions |
-| Artifacts | replayable run directories and state snapshots | Made intermediate products auditable for debugging and evaluation |
-| Evaluation | model gradients, Edge/Path gaps, quality gates | Organized the benchmark validation narrative and aggregate reporting |
+```text
+paper-preview/   Paper-style project preview; read the PDF first
+docs/            Architecture notes, evaluation results, sample questions, artifact map
+prompts/         Public role-level prompt excerpts
+```
