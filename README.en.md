@@ -15,7 +15,7 @@ AgenQA studies how to synthesize challenging scientific reasoning QA data while 
 
 ## Recommended Reading
 
-Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf). It contains the most polished paper-style overview: title, abstract, Motivation and Core Idea, AgenQA Framework, Experimental Showcase, Conclusion, and References.
+Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf). It contains the most polished paper-style overview: title, abstract, Motivation and Core Idea, Contributions, AgenQA Framework, Experimental Showcase, Conclusion, and References.
 
 | What to inspect | Entry |
 | --- | --- |
@@ -24,6 +24,12 @@ Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.z
 | Three representative sample questions | [docs/examples.pdf](./docs/examples.pdf) |
 | Architecture and system framing | [docs/architecture.md](./docs/architecture.md) |
 | Prompt role boundaries | [prompts/](./prompts/) |
+
+## Contributions
+
+1. **Edge/Path-grounded Chain-of-KQA formalism**: represent challenging reasoning-QA synthesis as a step-verifiable dependency chain, then use Edge Views and Path Views to separate correctness control from difficulty amplification.
+2. **Agentic state-transition harness**: organize extension, revision, folding, solver feedback, and acceptance through a Director--Operator--Evaluator loop over an explicit reasoning state.
+3. **Benchmark-construction validation**: use Edge-side correctness gates and Path-side solver distributions to validate filtering, difficulty signals, and model discrimination.
 
 ## Core Idea
 

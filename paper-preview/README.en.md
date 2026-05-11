@@ -6,7 +6,7 @@ This folder contains the AgenQA paper preview. The recommended entry is the LaTe
 
 **[Open AgenQA Paper Preview PDF](./agenqa_paper_preview.zh.pdf)**
 
-The PDF follows a paper-style showcase structure: title, abstract, Motivation and Core Idea, AgenQA Framework, Experimental Showcase, Conclusion, and References.
+The PDF follows a paper-style showcase structure: title, abstract, Motivation and Core Idea, Contributions, AgenQA Framework, Experimental Showcase, Conclusion, and References.
 
 Markdown versions are kept as section previews:
 

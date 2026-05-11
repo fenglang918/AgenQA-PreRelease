@@ -76,6 +76,16 @@ AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同
 
 AgenQA 因此围绕 step-level correctness control 与 global difficulty amplification 的分离来组织 synthesis。它先 progressive construction 一条 step-verifiable \textbf{Chain-of-KQA}，再通过 \textbf{Path-Fold} 隐藏中间推导步骤，把同一条 chain 投影为更难的 \textbf{Path View}；同时保留局部 \textbf{Edge View}，用于验证单步 transition 是否 well-posed、answer-equivalent 且可被强 solver 稳定求解。
 
+\section{Contributions}
+
+AgenQA 的贡献可以概括为三点：
+
+\begin{enumerate}
+  \item \textbf{Edge/Path-grounded Chain-of-KQA formalism.} AgenQA 将 challenging reasoning-QA synthesis 表示为一条逐步增长的 step-verifiable dependency chain。每个局部 transition 都带有可检查的 known state、answer-equivalent key fact 和 dependency certificate；同一条 chain 再被投影为 Edge View 与 Path View，从而把 step-level correctness control 和 global difficulty amplification 明确拆开。
+  \item \textbf{Agentic state-transition harness for synthesis and repair.} AgenQA 不把 agent 当成一次性出题器，而是把 Director、Operators 和 Evaluator 组织成显式 reasoning state 上的闭环。Extension、revision、folding、solver feedback、consensus 和 acceptance signals 都作用在同一 Chain-of-KQA object 上，使 generation、verification 和 repair 成为一个可追踪生命周期。
+  \item \textbf{Benchmark-construction validation with model-discrimination signals.} 当前 public preview 以 benchmark construction 为主验证面：Edge-side solver signals 用作 correctness 与 well-posedness gates，Path-side solver distributions 用作 difficulty 与 discrimination signals。阶段性结果显示，Path View items 能区分 SOTA solvers 与不同规模 Qwen-family models，并保留可解释的难度来源。
+\end{enumerate}
+
 \section{AgenQA Framework}
 
 AgenQA 不把 challenging reasoning-QA synthesis 视为一次性生成最终难题，而是把它实现为显式 reasoning state 上的 growth、folding、evaluation 和 repair。

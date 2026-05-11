@@ -17,7 +17,7 @@ AgenQA 研究的问题是：如何合成真正有挑战性的 scientific reasoni
 
 **首选阅读：** [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf)
 
-PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and Core Idea、AgenQA Framework、Experimental Showcase、Conclusion 和 References。它是这个 repo 最完整、最顺眼的阅读入口。
+PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and Core Idea、Contributions、AgenQA Framework、Experimental Showcase、Conclusion 和 References。它是这个 repo 最完整、最顺眼的阅读入口。
 
 | 想快速看什么 | 入口 |
 | --- | --- |
@@ -26,6 +26,12 @@ PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and C
 | 三道代表性样例题 | [docs/examples.pdf](./docs/examples.pdf) |
 | 系统与方法架构 | [docs/architecture.zh.md](./docs/architecture.zh.md) |
 | Prompt 角色边界 | [prompts/](./prompts/) |
+
+## 核心贡献
+
+1. **Edge/Path-grounded Chain-of-KQA formalism**：把 challenging reasoning-QA synthesis 表示为 step-verifiable dependency chain，并用 Edge View / Path View 分离 correctness control 与 difficulty amplification。
+2. **Agentic state-transition harness**：用 Director--Operator--Evaluator loop 在显式 reasoning state 上组织 extension、revision、folding、solver feedback 和 acceptance。
+3. **Benchmark-construction validation**：用 Edge-side correctness gates 与 Path-side solver distributions 验证生成题目的可过滤性、难度信号和模型区分度。
 
 ## Core Idea
 

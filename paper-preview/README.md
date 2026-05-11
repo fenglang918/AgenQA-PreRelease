@@ -6,7 +6,7 @@
 
 **[打开 AgenQA Paper Preview PDF](./agenqa_paper_preview.zh.pdf)**
 
-PDF 按论文式展示结构组织：标题、摘要、Motivation and Core Idea、AgenQA Framework、Experimental Showcase、Conclusion 和 References。
+PDF 按论文式展示结构组织：标题、摘要、Motivation and Core Idea、Contributions、AgenQA Framework、Experimental Showcase、Conclusion 和 References。
 
 Markdown 版本保留为分节预览：
 
