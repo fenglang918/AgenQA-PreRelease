@@ -2,277 +2,152 @@
 
 [English](./examples.md)
 
-> 本页展示三道 selected Path View sample questions，用于说明 AgenQA 生成题目的形态与难度来源。它们不是完整 benchmark release，也不附带 source papers、raw solver responses、prompt snapshots 或 run artifacts。
+> 本页展示三道 selected **Path View** sample questions，用于说明 AgenQA 生成题目的形态与难度来源。它们不是完整 benchmark release，也不附带 source papers、raw solver responses、prompt snapshots 或 run artifacts。
 
-这些样例都属于 solver-facing **Path View**：题面只给出最终求解所需的可见条件，中间 dependency path 被折叠，解题者需要自行恢复关键推理步骤。
+这些样例都属于 solver-facing **Path View**：题面只给出最终求解所需的可见条件，中间 dependency path 被折叠，解题者需要自行恢复关键推理步骤。为保证 GitHub 预览稳定，长公式以 LaTeX snippet 展示。
 
 ## Sample 1. FedAvg 收敛界中的学习率选择
 
 **Subject**: Federated and Distributed Learning
 
-**Question**
+**Path View focus**: 从 FedAvg 的 smoothness、non-IID 梯度异质性和通信轮数条件出发，恢复收敛上界中的学习率优化步骤。
 
-考虑如下设定下的 Federated Averaging（FedAvg）算法：
+**Solver-facing question**
 
-- 全局目标函数为 $F(w) = \sum_k \frac{n_k}{n} F_k(w)$，其中 $F_k(w)$ 是客户端 $k$ 的局部经验损失，$n_k = |D_k|$，且 $n = \sum_k n_k$。
-- 每个被选中的客户端都从当前全局模型 $w^t$ 初始化，在其局部损失 $F_k$ 上以常数学习率 $\eta > 0$ 执行 $E > 1$ 步本地 SGD，然后把得到的参数增量发送给服务器，由服务器按权重平均聚合。
-- 各客户端本地数据分布不同，因此局部梯度最小点与全局最小点不同。
-- 加权 RMS 梯度异质性定义为
+给定 FedAvg 设定：
 
-$$
-G =
-\left(
-\sum_k \frac{n_k}{n}
-\|\nabla F_k(w) - \nabla F(w)\|^2
-\right)^{1/2}
-\geq 0.
-$$
+- 全局目标函数为 `F(w) = sum_k (n_k / n) F_k(w)`。
+- 每个客户端从 `w^t` 出发，以常数学习率 `eta > 0` 执行 `E > 1` 步本地 SGD，再由服务器按权重平均聚合。
+- 客户端数据 non-IID，梯度异质性由加权 RMS 量 `G` 表示。
+- 全局损失满足 `L`-smoothness。
+- 一共进行 `T` 轮全客户端参与通信，`E, G, L, T` 均为正数。
 
-- 全局损失满足 $L$-smoothness：
+要求求出使时间平均平方梯度范数上界最小的学习率 `eta*`，并给出优化后的最紧上界。最终答案只能使用 `F(w^0)-F(w*)`、`L`、`E`、`G`、`T`。
 
-$$
-F(w') \leq F(w) + \langle \nabla F(w), w' - w\rangle
-+ \frac{L}{2}\|w' - w\|^2,
-\quad \forall w,w'.
-$$
+**Reference answer**
 
-- 一共进行 $T$ 轮全客户端参与的通信。量 $E$、$G$、$L$、$T$ 都是严格为正的常数，$w^\*$ 表示 $F$ 的一个全局最小点。
+```latex
+eta* =
+sqrt( 2[F(w^0)-F(w*)] / (L E^2 G^2 T) )
 
-请确定能够使
+(1/T) sum_{t=0}^{T-1} ||grad F(w^t)||^2
+<=
+2 sqrt( 2 L G^2 [F(w^0)-F(w*)] / T )
+```
 
-$$
-\frac{1}{T}\sum_{t=0}^{T-1}\|\nabla F(w^t)\|^2
-$$
+**Why this is a useful sample**
 
-的最紧收敛上界达到最小的学习率，并计算对应的优化后上界。
-
-请给出两个分别加框的答案：先写 $\eta^\*$，再写优化后的上界；每个答案都只能用 $F(w^0)-F(w^\*)$、$L$、$E$、$G$、$T$ 表示。
-
-**Reference Answer**
-
-$$
-\boxed{
-\eta^\* =
-\sqrt{
-\frac{2[F(w^0)-F(w^\*)]}
-{L E^2 G^2 T}
-}
-}
-$$
-
-$$
-\boxed{
-\frac{1}{T}\sum_{t=0}^{T-1}\|\nabla F(w^t)\|^2
-\leq
-2\sqrt{
-\frac{2 L G^2 [F(w^0)-F(w^\*)]}{T}
-}
-}
-$$
+这道题展示了 Path View 的基本形态：题面不直接给出中间收敛界的单步优化式，而要求 solver 从 FedAvg 设定中恢复出学习率选择与优化后上界。
 
 ## Sample 2. Pointer-Generator Coverage Loss 的梯度路径
 
 **Subject**: Natural Language Processing / Abstractive Summarization
 
-**Question**
+**Path View focus**: 在 pointer-generator + coverage loss 结构中，恢复编码器隐藏状态 `h_i` 到总损失的两条梯度路径。
 
-在一个软注意力编码器-解码器模型中，在解码步 $t$ 处，注意力分数对每个源位置 $i$ 计算为
+**Solver-facing question**
 
-$$
-e_{t,i} = \mathrm{score}(s_t, h_i),
-$$
+给定软注意力 encoder-decoder：
 
-再经 softmax 归一化得到
+- attention score: `e_{t,i} = score(s_t, h_i)`
+- attention weight: `a_{t,i} = exp(e_{t,i}) / sum_j exp(e_{t,j})`
+- context vector: `c_t = sum_i a_{t,i} h_i`
+- total loss: `L_total = L_NLL + lambda L_cov`
+- coverage state: `cov_{t,i} = sum_{t' < t} a_{t',i}`
+- coverage loss: `L_cov = sum_t sum_i min(a_{t,i}, cov_{t,i})`
 
-$$
-a_{t,i} =
-\frac{\exp(e_{t,i})}{\sum_j \exp(e_{t,j})},
-$$
+要求推导 `partial L_total / partial h_i` 的单一闭式符号表达。由于 `score` 函数未固定，`partial e_{t,i} / partial h_i` 保持为未展开形式。答案应同时捕捉：
 
-上下文向量定义为
+- `h_i -> e_{t,i} -> a_{t,*}` 的 score path；
+- `h_i -> c_t -> L_NLL` 的 context path。
 
-$$
-c_t = \sum_i a_{t,i}h_i.
-$$
+**Reference answer**
 
-在 pointer-generator 模型中，每一步还计算生成概率
-
-$$
-p_{\mathrm{gen}} =
-\sigma(w_c^\top c_t + w_s^\top s_t + w_x^\top x_t + b_{\mathrm{gen}}).
-$$
-
-组合训练损失为
-
-$$
-L_{\mathrm{total}} = L_{\mathrm{NLL}} + \lambda L_{\mathrm{cov}},
-$$
-
-其中
-
-$$
-\mathrm{cov}_{t,i} = \sum_{t' < t} a_{t',i},
-\quad
-\mathrm{cov}_{0,i}=0,
-$$
-
-且
-
-$$
-L_{\mathrm{cov}} =
-\sum_t \sum_i \min(a_{t,i}, \mathrm{cov}_{t,i}).
-$$
-
-编码器隐藏状态 $h_i$ 是一个向量，$\lambda \geq 0$ 是固定标量，$\partial e_{t,i}/\partial h_i$ 表示标量 score 关于 $h_i$ 的向量值 Jacobian。由于 score 函数未固定，所以保持为未展开形式。
-
-请推导 $\partial L_{\mathrm{total}} / \partial h_i$ 的单一闭式符号表达，并将答案写成一个 $\boxed{\cdots}$ 形式的单个求和公式。允许使用的符号包括 $a_{t,i}$、$a_{t,j}$、$\mathrm{cov}_{t,i}$、$\mathrm{cov}_{t,j}$、$a_{t'',i}$、$a_{t'',j}$、$\mathrm{cov}_{t'',i}$、$\mathrm{cov}_{t'',j}$、$g_{t,i}$、$g_{t,j}$、$\partial e_{t,i}/\partial h_i$、$\partial L_{\mathrm{NLL}}/\partial a_{t,j}$、$\partial L_{\mathrm{NLL}}/\partial c_t$、$t$、$t''$、$i$、$j$、$\lambda$ 和 $\mathbf{1}[\cdot]$，其中 $g_{t,j}$ 可作为 $\partial L_{\mathrm{total}}/\partial a_{t,j}$ 的简写。
-
-**Reference Answer**
-
-$$
-\boxed{
-\frac{\partial L_{\text{total}}}{\partial h_i}
+```latex
+partial L_total / partial h_i
 =
-\sum_t
-\left[
-a_{t,i}
-\left(
-g_{t,i}
--
-\sum_j a_{t,j}g_{t,j}
-\right)
-\cdot
-\frac{\partial e_{t,i}}{\partial h_i}
-+
-a_{t,i}
-\cdot
-\frac{\partial L_{\text{NLL}}}{\partial c_t}
-\right]
-}
-$$
+sum_t [
+  a_{t,i} ( g_{t,i} - sum_j a_{t,j} g_{t,j} )
+  * partial e_{t,i} / partial h_i
+  +
+  a_{t,i} * partial L_NLL / partial c_t
+]
+```
+
+**Why this is a useful sample**
+
+这道题体现了 Path-Fold 后的 chain-level challenge：solver 需要把 softmax Jacobian、coverage dependency 和 context-vector path 合并，而不是只回答一个局部梯度公式。
 
 ## Sample 3. TRADES 鲁棒训练目标的外层与内层条件
 
 **Subject**: Machine Learning Security / Adversarial Robustness
 
-**Question**
+**Path View focus**: 从 TRADES-style robust objective 出发，同时恢复外层 envelope-theorem gradient 与内层 PGD / KKT 条件。
 
-考虑一个参数化深度神经网络 $f_\theta$，其设定如下：可行扰动集合是闭 $L_p$ 球
+**Solver-facing question**
 
-$$
-\{\delta : \|\delta\|_p \leq \varepsilon\},
-$$
+给定参数化深度神经网络 `f_theta`，可行扰动集合为闭 `L_p` 球：
 
-其中 $p \geq 1$ 且 $\varepsilon > 0$。$L(f_\theta(x+\delta), y)$ 是扰动输入 $x+\delta$ 相对于真实标签 $y$ 的标量损失。数据分布为 $(x,y)\sim\mu$。$\mathrm{KL}(f_\theta(x)\|f_\theta(x+\delta))$ 表示 KL 散度，其中干净输入分布 $f_\theta(x)$ 是第一参数，扰动输入分布 $f_\theta(x+\delta)$ 是第二参数。$\beta\geq0$ 是固定标量。$\Pi_{\|\cdot\|_p\leq\varepsilon}(v)$ 表示把 $v$ 投影到半径为 $\varepsilon$ 的闭 $L_p$ 球上的欧氏投影。$\alpha>0$ 是步长。$\lambda\geq0$ 是拉格朗日乘子。$\delta^\*(\theta)$ 表示对固定的 $(\theta,x)$，在约束 $\|\delta\|_p\leq\varepsilon$ 下使 $\mathrm{KL}(f_\theta(x)\|f_\theta(x+\delta))$ 达到最大值的解。
+```latex
+{ delta : ||delta||_p <= epsilon }
+```
 
-从如下目标出发：
+TRADES-style 目标为：
 
-$$
-\min_{\theta}
-\mathbb{E}_{(x,y)\sim\mu}
-\left[
-L(f_{\theta}(x), y)
-+
-\beta
-\cdot
-\max_{\|\delta\|_p\leq\varepsilon}
-\mathrm{KL}
-\left(
-f_{\theta}(x)
-\,\big\|\,
-f_{\theta}(x+\delta)
-\right)
-\right],
-$$
+```latex
+min_theta E_{(x,y)~mu} [
+  L(f_theta(x), y)
+  +
+  beta * max_{||delta||_p <= epsilon}
+    KL( f_theta(x) || f_theta(x + delta) )
+]
+```
 
-将以下内容合并推导为一个单独加框的表达式：
+其中 `KL(f_theta(x) || f_theta(x+delta))` 以 clean input distribution 为第一参数，以 perturbed input distribution 为第二参数。`delta*(theta)` 表示内层 KL 最大化问题的解。
 
-1. $\nabla_\theta\max_{\|\delta\|_p\leq\varepsilon}\mathrm{KL}(f_\theta(x)\|f_\theta(x+\delta))$ 的包络定理形式，以及由此得到的 $\theta^\*$ 处外层驻点条件，并要求该驻点条件显式写成恰好两个梯度项相加等于零；
-2. 内层关于 $\delta$ 的最大化问题对应的归一化 PGD 更新规则，以及收敛时的固定点 KKT 条件，包括梯度驻点、互补松弛和可行性。
+要求合并推导：
 
-请把完整答案写成一个单独的 $\boxed{\cdots}$ 表达式，并且只使用 $\{f_{\theta}, L, x, y, \delta, \varepsilon, p, \lambda, \theta, \mu, \beta, \mathrm{KL}, \alpha\}$ 这些符号。
+1. `nabla_theta max_delta KL(...)` 的 envelope-theorem 形式，以及 `theta*` 处外层驻点条件；
+2. 内层关于 `delta` 的归一化 PGD 更新规则；
+3. 收敛时的 KKT 条件，包括梯度驻点、互补松弛和可行性。
 
-**Reference Answer**
+**Reference answer**
 
-$$
-\boxed{
-\begin{aligned}
-&\nabla_{\theta}
-\max_{\|\delta\|_p\leq\varepsilon}
-\mathrm{KL}
-\left(
-f_{\theta}(x)
-\big\|
-f_{\theta}(x+\delta)
-\right)
+```latex
+nabla_theta max_{||delta||_p <= epsilon}
+  KL(f_theta(x) || f_theta(x + delta))
 =
-\nabla_{\theta}
-\mathrm{KL}
-\left(
-f_{\theta}(x)
-\big\|
-f_{\theta}(x+\delta^\*(\theta))
-\right)
-\Big|_{\delta=\delta^\*(\theta)},\\
-&\nabla_{\theta}
-\mathbb{E}_{(x,y)\sim\mu}
-\left[
-L(f_{\theta^\*}(x),y)
-\right]
+nabla_theta KL(
+  f_theta(x) || f_theta(x + delta*(theta))
+) |_{delta = delta*(theta)}
+
+nabla_theta E_{(x,y)~mu}[L(f_{theta*}(x), y)]
 +
-\beta
-\nabla_{\theta}
-\mathbb{E}_{(x,y)\sim\mu}
-\left[
-\mathrm{KL}
-\left(
-f_{\theta^\*}(x)
-\big\|
-f_{\theta^\*}(x+\delta^\*(\theta^\*))
-\right)
-\right]
-=0,\\
-&\delta_{t+1}
+beta nabla_theta E_{(x,y)~mu}[
+  KL(f_{theta*}(x) || f_{theta*}(x + delta*(theta*)))
+]
+= 0
+
+delta_{t+1}
 =
-\Pi_{\|\cdot\|_p\leq\varepsilon}
-\left(
-\delta_t
-+
-\alpha
-\frac{
-\nabla_{\delta}
-\mathrm{KL}
-\left(
-f_{\theta}(x)
-\big\|
-f_{\theta}(x+\delta_t)
-\right)
-}{
-\left\|
-\nabla_{\delta}
-\mathrm{KL}
-\left(
-f_{\theta}(x)
-\big\|
-f_{\theta}(x+\delta_t)
-\right)
-\right\|_p
-}
-\right),\\
-&\nabla_{\delta}
-\mathrm{KL}
-\left(
-f_{\theta}(x)
-\big\|
-f_{\theta}(x+\delta^\*)
-\right)
+Proj_{||.||_p <= epsilon}(
+  delta_t
+  +
+  alpha *
+  nabla_delta KL(f_theta(x) || f_theta(x + delta_t))
+  /
+  ||nabla_delta KL(f_theta(x) || f_theta(x + delta_t))||_p
+)
+
+nabla_delta KL(f_theta(x) || f_theta(x + delta*))
 =
-\lambda
-\nabla_{\delta}\|\delta^\*\|_p,\quad
-\lambda\geq 0,\\
-&\lambda(\|\delta^\*\|_p-\varepsilon)=0,
-\quad
-\|\delta^\*\|_p\leq\varepsilon.
-\end{aligned}
-}
-$$
+lambda nabla_delta ||delta*||_p,
+lambda >= 0
+
+lambda (||delta*||_p - epsilon) = 0,
+||delta*||_p <= epsilon
+```
+
+**Why this is a useful sample**
+
+这道题展示了 AgenQA 题目可以覆盖较复杂的 optimization / robustness reasoning：solver 需要同时处理外层参数优化、内层 adversarial maximization 和 constrained optimality conditions。
