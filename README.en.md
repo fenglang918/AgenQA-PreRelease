@@ -29,9 +29,9 @@ Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.z
 
 ## Contributions
 
-1. **Edge/Path-grounded Chain-of-KQA formalism**: represent challenging reasoning-QA synthesis as a step-verifiable dependency chain, then use Edge Views and Path Views to separate correctness control from difficulty amplification.
-2. **Agentic state-transition harness**: organize extension, revision, folding, solver feedback, and acceptance through a Director--Operator--Evaluator loop over an explicit reasoning state.
-3. **Benchmark-construction validation**: use Edge-side correctness gates and Path-side solver distributions to validate filtering, difficulty signals, and model discrimination.
+1. **Edge/Path-grounded Chain-of-KQA formalism**: turn the correctness--difficulty tension in challenging reasoning QA synthesis into a step-to-global design principle: Edge Views support step-level correctness control, while Path-Fold amplifies global difficulty over the same generated chain.
+2. **Scalable and extensible agentic synthesis harness**: treat QA generation as a controlled state-transition process over explicit knowledge dependencies. Organized as a Director--Operator--Evaluator loop, the harness supports scalable synthesis by making grounding, state persistence, dependency auditability, contract-based stabilization, and evaluator-guided repair explicit controls, while keeping the Operator layer modular.
+3. **Pre-release benchmark evidence with SOTA and Qwen-family evaluations**: present two benchmark-construction signals in the public preview. The SOTA-solver evaluation covers `96` synthesis runs / `547` Path View questions, reaching **84.18%** aggregate accuracy and **51.77%** diagnostic-subset accuracy, showing that Path Views retain a discriminative region among strong solvers. The Qwen-family gradient covers `37` runs / `175` Path View questions, with accuracy rising from **48.00%** for 4B to **66.86%** for 32B on the same benchmark; this scale-consistent ordering serves as a benchmark sanity check and a lightweight complement to item-level human review.
 
 ## Core Idea
 

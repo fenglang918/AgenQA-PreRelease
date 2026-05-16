@@ -56,6 +56,6 @@ AgenQA 旨在让同一批 accepted chains 支持多种下游用途：benchmark c
 
 ## Contributions
 
-1. **Edge/Path-grounded Chain-of-KQA formalism.** AgenQA 将 correctness--difficulty tension 转化为 step-to-global design principle：Edge views 支持 step-level correctness control，Path-Fold 在同一条 generated chain 上放大全局 difficulty。
-2. **Scalable and extensible agentic synthesis harness.** AgenQA 将 QA generation 视为显式知识依赖上的受控 state-transition process，以 Director--Operator--Evaluator loop 组织。
-3. **Benchmark-construction validation.** AgenQA 作为 benchmark-construction framework 进行评估，重点验证 harness-produced signals 是否支持 accepted chains 的 filtering、slicing 与 routing。
+1. **Edge/Path-grounded Chain-of-KQA formalism.** AgenQA 将 challenging reasoning QA synthesis 中的 correctness--difficulty tension 转化为 step-to-global design principle：Edge views 支持 step-level correctness control，Path-Fold 在同一条 generated chain 上放大全局 difficulty。
+2. **Scalable and extensible agentic synthesis harness.** AgenQA 将 QA generation 视为显式知识依赖上的受控 state-transition process。Director--Operator--Evaluator loop 通过 grounding、state persistence、dependency auditability、contract-based stabilization 和 evaluator-guided repair 等显式 controls 支持可扩展 synthesis，并保持 Operator layer modular。
+3. **Pre-release benchmark evidence with SOTA and Qwen-family evaluations.** 当前 public preview 报告两组 benchmark-construction signals：SOTA solver 评测覆盖 `96` 次 synthesis runs / `547` 道 Path View questions，整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**，说明 Path View 在强模型区间仍保留难度和区分区域；Qwen-family 梯度评测覆盖 `37` 次 runs / `175` 道 Path View questions，同一 benchmark 上 accuracy 从 **48.00%**（4B）上升到 **66.86%**（32B），可作为 benchmark 合理性的 scale-consistency sanity check。

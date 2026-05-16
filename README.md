@@ -31,9 +31,9 @@ PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and C
 
 ## 核心贡献
 
-1. **Edge/Path-grounded Chain-of-KQA formalism**：把 challenging reasoning-QA synthesis 表示为 step-verifiable dependency chain，并用 Edge View / Path View 分离 correctness control 与 difficulty amplification。
-2. **Agentic state-transition harness**：用 Director--Operator--Evaluator loop 在显式 reasoning state 上组织 extension、revision、folding、solver feedback 和 acceptance。
-3. **Benchmark-construction validation**：用 Edge-side correctness gates 与 Path-side solver distributions 验证生成题目的可过滤性、难度信号和模型区分度。
+1. **Edge/Path-grounded Chain-of-KQA formalism**：将 correctness--difficulty tension 转化为 step-to-global design principle：Edge View 支持 step-level correctness control，Path-Fold 在同一条 generated chain 上放大全局 difficulty。
+2. **Scalable and extensible agentic synthesis harness**：将 QA generation 视为显式知识依赖上的受控 state-transition process；Director--Operator--Evaluator loop 通过 grounding、state persistence、dependency auditability、contract-based stabilization 和 evaluator-guided repair 等显式 controls 支持可扩展 synthesis，并保持 Operator layer modular。
+3. **Pre-release benchmark evidence with SOTA and Qwen-family evaluations**：当前 public preview 展示两组 benchmark-construction signals：SOTA solver 评测覆盖 `96` 次 synthesis runs / `547` 道 Path View questions，整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**，说明 Path View 在强模型区间仍保留难度和区分区域；Qwen-family 梯度评测覆盖 `37` 次 runs / `175` 道 Path View questions，同一 benchmark 上 accuracy 从 **48.00%**（4B）上升到 **66.86%**（32B），与模型尺寸/预期能力一致，可作为 benchmark 合理性的 scale-consistency sanity check，并低成本补充人工逐题审查。
 
 ## Core Idea
 

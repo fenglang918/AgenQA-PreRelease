@@ -4,7 +4,7 @@
 
 This page summarizes an evaluation snapshot from the March 26, 2026 project report. It shows that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal.
 
-The paper framing of AgenQA separates the roles of Edge and Path views: Edge Views support step-level correctness control, while Path-Fold creates solver-facing Path View questions whose solver distributions reveal global difficulty and discrimination signal. This page therefore keeps only two tables: one for strong solvers on Path View questions, and one for the positive correlation between benchmark accuracy and model scale / expected capability within the Qwen family.
+The paper framing of AgenQA separates the roles of Edge and Path views: Edge Views support step-level correctness control, while Path-Fold creates solver-facing Path View questions. This page keeps two complementary checks: one for the difficulty and discriminative region among strong solvers, and one for the positive correlation between benchmark accuracy and model scale / expected capability within the Qwen family as a scale-consistency sanity check.
 
 ## Table 1. SOTA Solvers on Path View Questions
 
@@ -21,7 +21,7 @@ This table comes from a stronger problem-specification setting where problem con
 
 ## Table 2. Qwen-Family Model-Scale Correlation
 
-This table comes from an earlier set of `37` synthesis runs / `175` Path View questions. It shows that, within the same model family, benchmark accuracy is positively correlated with model scale / expected capability, suggesting that the tasks reflect solver capability differences rather than random noise.
+This table comes from an earlier set of `37` synthesis runs / `175` Path View questions. It shows that, within the same model family, benchmark accuracy is positively correlated with model scale / expected capability. This is not the main strong-model discrimination claim; it is a scale-consistency sanity check that the benchmark behaves in the expected capability order and can complement item-level human review.
 
 | Solver | All Path View accuracy | Diagnostic-subset accuracy | Interpretation |
 | --- | ---: | ---: | --- |
@@ -30,4 +30,4 @@ This table comes from an earlier set of `37` synthesis runs / `175` Path View qu
 | Qwen3-32B | 66.86% | 50.00% | larger-model improvement |
 | All solvers | 59.54% | 38.97% | family-level aggregate |
 
-Together, the two tables show that AgenQA's Path-Fold does more than create longer problem statements: it preserves a generator-side dependency state while producing solver-facing benchmark items with measurable difficulty and model-discrimination signal.
+Together, the two tables show that AgenQA's Path-Fold does more than create longer problem statements: it preserves a generator-side dependency state while producing solver-facing benchmark items with measurable difficulty, strong-solver discrimination, and model-scale consistency.

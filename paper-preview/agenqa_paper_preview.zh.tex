@@ -54,7 +54,7 @@
 \end{center}
 
 \begin{abstract}
-AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同时不失去可验证性。它先构造一条 step-verifiable Chain-of-KQA，再通过 Path-Fold 隐藏中间事实，形成更难的 solver-facing Path View；局部 Edge View 则保留 step-level correctness control 所需的可见支撑。系统上，AgenQA 将生成过程组织为 Director--Operator--Evaluator loop，使 generation、verification 和 repair 发生在同一显式 reasoning state 上。阶段性评测显示，AgenQA 生成的 Path View 题目能形成有效的 model-discrimination signal：SOTA solver 评测整体准确率为 84.18\%，诊断子集准确率为 51.77\%；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关，4B 为 48.00\%，32B 为 66.86\%。
+AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同时不失去可验证性。它先构造一条 step-verifiable Chain-of-KQA，再通过 Path-Fold 隐藏中间事实，形成更难的 solver-facing Path View；局部 Edge View 则保留 step-level correctness control 所需的可见支撑。系统上，AgenQA 将生成过程组织为 Director--Operator--Evaluator loop，使 generation、verification 和 repair 发生在同一显式 reasoning state 上。阶段性评测显示，AgenQA 生成的 Path View 题目能形成有效的 benchmark-construction signals：SOTA solver 评测整体准确率为 84.18\%，诊断子集准确率为 51.77\%，说明强模型区间仍存在区分区域；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关，4B 为 48.00\%，32B 为 66.86\%，可作为 benchmark 合理性的 scale-consistency sanity check。
 \end{abstract}
 
 \begin{figure}[H]
@@ -81,9 +81,9 @@ AgenQA 因此围绕 step-level correctness control 与 global difficulty amplifi
 AgenQA 的贡献可以概括为三点：
 
 \begin{enumerate}
-  \item \textbf{Edge/Path-grounded Chain-of-KQA formalism.} AgenQA 将 challenging reasoning-QA synthesis 表示为一条逐步增长的 step-verifiable dependency chain。每个局部 transition 都带有可检查的 known state、answer-equivalent key fact 和 dependency certificate；同一条 chain 再被投影为 Edge View 与 Path View，从而把 step-level correctness control 和 global difficulty amplification 明确拆开。
-  \item \textbf{Agentic state-transition harness for synthesis and repair.} AgenQA 不把 agent 当成一次性出题器，而是把 Director、Operators 和 Evaluator 组织成显式 reasoning state 上的闭环。Extension、revision、folding、solver feedback、consensus 和 acceptance signals 都作用在同一 Chain-of-KQA object 上，使 generation、verification 和 repair 成为一个可追踪生命周期。
-  \item \textbf{Benchmark-construction validation with model-discrimination signals.} 当前 public preview 以 benchmark construction 为主验证面：Edge-side solver signals 用作 correctness 与 well-posedness gates，Path-side solver distributions 用作 difficulty 与 discrimination signals。阶段性结果显示，Path View items 能区分 SOTA solvers 与不同规模 Qwen-family models，并保留可解释的难度来源。
+  \item \textbf{Edge/Path-grounded Chain-of-KQA formalism.} AgenQA 将 challenging reasoning QA synthesis 中的 correctness--difficulty tension 转化为 step-to-global design principle：Edge View 支持 step-level correctness control，Path-Fold 在同一条 generated chain 上放大全局 difficulty。
+  \item \textbf{Scalable and extensible agentic synthesis harness.} AgenQA 将 QA generation 视为显式知识依赖上的受控 state-transition process。Director--Operator--Evaluator loop 通过 grounding、state persistence、dependency auditability、contract-based stabilization 和 evaluator-guided repair 等显式 controls 支持可扩展 synthesis，并保持 Operator layer modular。
+  \item \textbf{Pre-release benchmark evidence with SOTA and Qwen-family evaluations.} 当前 public preview 展示两组 benchmark-construction signals：SOTA solver 评测覆盖 96 次 synthesis runs / 547 道 Path View questions，整体准确率为 84.18\%，诊断子集准确率为 51.77\%，说明 Path View 在强模型区间仍保留难度和区分区域；Qwen-family 梯度评测覆盖 37 次 runs / 175 道 Path View questions，同一 benchmark 上 accuracy 从 48.00\%（4B）上升到 66.86\%（32B），与模型尺寸/预期能力一致，可作为 benchmark 合理性的 scale-consistency sanity check。
 \end{enumerate}
 
 \section{AgenQA Framework}
@@ -159,7 +159,7 @@ z_{r+1}=E(\Pi(S_{r+1})).
 
 \subsection{Evaluation Results}
 
-本节保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，另一张展示 Qwen-family 内 benchmark accuracy 与模型规模/理论能力的正相关关系。两张表共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的 difficulty 与 model-discrimination signal。
+本节保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，用于观察强模型区间的难度和区分区域；另一张展示 Qwen-family 内 benchmark accuracy 与模型规模/理论能力的正相关关系，用于做 benchmark 合理性的 scale-consistency sanity check。两张表共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的难度、强模型区分信号和模型尺寸一致性信号。
 
 \begin{table}[H]
 \centering
