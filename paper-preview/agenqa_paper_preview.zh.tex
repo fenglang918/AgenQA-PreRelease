@@ -54,7 +54,7 @@
 \end{center}
 
 \begin{abstract}
-AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同时不失去可验证性。它先构造一条 step-verifiable Chain-of-KQA，再通过 Path-Fold 隐藏中间事实，形成更难的 solver-facing Path View；局部 Edge View 则保留 step-level correctness control 所需的可见支撑。系统上，AgenQA 将生成过程组织为 Director--Operator--Evaluator loop，使 generation、verification 和 repair 发生在同一显式 reasoning state 上。阶段性评测显示，AgenQA 生成的 Path View 题目能形成有效的 benchmark-construction signals：SOTA solver 评测整体准确率为 84.18\%，诊断子集准确率为 51.77\%，说明强模型区间仍存在区分区域；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关，4B 为 48.00\%，32B 为 66.86\%，可作为 benchmark 合理性的 scale-consistency sanity check。
+AgenQA 研究如何合成具有挑战性的 scientific reasoning QA 数据，同时不失去可验证性。它先构造一条 step-verifiable Chain-of-KQA，再通过 Path-Fold 隐藏中间事实，形成更难的 solver-facing Path View；局部 Edge View 则保留 step-level correctness control 所需的可见支撑。系统上，AgenQA 将生成过程组织为 Director--Operator--Evaluator loop，使 generation、verification 和 repair 发生在同一显式 reasoning state 上。阶段性评测显示，AgenQA 生成的 Path View 题目能形成有效的 benchmark-construction signals：SOTA solver 评测整体准确率为 84.18\%，诊断子集准确率为 51.77\%，说明强模型区间仍存在区分区域；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关，4B 为 48.00\%，32B 为 66.86\%，可作为 benchmark 合理性的 scale-consistency sanity check。早期下游训练结果进一步显示，约 2K 条 AgenQA 数据训练后的 Qwen3-4B-Instruct variants 在 AIM24、HMMT-FEB 和 SciBench 上出现正向迁移，同时 GPQA 系列基本持平。
 \end{abstract}
 
 \begin{figure}[H]
@@ -83,7 +83,7 @@ AgenQA 的贡献可以概括为三点：
 \begin{enumerate}
   \item \textbf{Edge/Path-grounded Chain-of-KQA formalism.} AgenQA 将 challenging reasoning QA synthesis 中的 correctness--difficulty tension 转化为 step-to-global design principle：Edge View 支持 step-level correctness control，Path-Fold 在同一条 generated chain 上放大全局 difficulty。
   \item \textbf{Scalable and extensible agentic synthesis harness.} AgenQA 将 QA generation 视为显式知识依赖上的受控 state-transition process。Director--Operator--Evaluator loop 通过 grounding、state persistence、dependency auditability、contract-based stabilization 和 evaluator-guided repair 等显式 controls 支持可扩展 synthesis，并保持 Operator layer modular。
-  \item \textbf{Pre-release benchmark evidence with SOTA and Qwen-family evaluations.} 当前 public preview 展示两组 benchmark-construction signals：SOTA solver 评测覆盖 96 次 synthesis runs / 547 道 Path View questions，整体准确率为 84.18\%，诊断子集准确率为 51.77\%，说明 Path View 在强模型区间仍保留难度和区分区域；Qwen-family 梯度评测覆盖 37 次 runs / 175 道 Path View questions，同一 benchmark 上 accuracy 从 48.00\%（4B）上升到 66.86\%（32B），与模型尺寸/预期能力一致，可作为 benchmark 合理性的 scale-consistency sanity check。
+  \item \textbf{Pre-release benchmark and training-utility evidence.} 当前 public preview 展示两类 evidence：benchmark-construction signals 包括 SOTA solver 评测和 Qwen-family scale-consistency sanity check；early downstream training signal 显示，约 2K 条 AgenQA 数据训练后的 Qwen3-4B-Instruct variants 在 AIM24、HMMT-FEB 和 SciBench 上出现正向迁移，同时 GPQA / GPQA-Diamond 基本持平。
 \end{enumerate}
 
 \section{AgenQA Framework}
@@ -159,7 +159,7 @@ z_{r+1}=E(\Pi(S_{r+1})).
 
 \subsection{Evaluation Results}
 
-本节保留两张最能说明问题的表：一张展示强模型在 Path View 题目上的表现，用于观察强模型区间的难度和区分区域；另一张展示 Qwen-family 内 benchmark accuracy 与模型规模/理论能力的正相关关系，用于做 benchmark 合理性的 scale-consistency sanity check。两张表共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的难度、强模型区分信号和模型尺寸一致性信号。
+本节保留三张最能说明问题的表：前两张展示 benchmark-construction signal，包括强模型在 Path View 题目上的表现，以及 Qwen-family 内 benchmark accuracy 与模型规模/理论能力的正相关关系；第三张展示早期下游训练结果，用于观察少量 AgenQA 数据是否能带来跨 benchmark 的 reasoning transfer。它们共同说明：AgenQA 的 Path-Fold 不只是产生更长题面，而是在保留生成侧 dependency state 的同时，为 solver-facing benchmark 构造出可测的难度、强模型区分信号和模型尺寸一致性信号；同时，少量 AgenQA 数据已经显示出 early downstream training utility signal。
 
 \begin{table}[H]
 \centering
@@ -198,6 +198,27 @@ All solvers & 59.54\% & 38.97\% & family-level aggregate \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\begin{table}[H]
+\centering
+\scriptsize
+\caption{Early transfer from 2K AgenQA training examples. Results are 32-run averages.}
+\label{tab:training-transfer}
+\begin{tabular}{lrrrrr}
+\toprule
+Model & AIM24 & HMMT-FEB & GPQA-Diamond & GPQA & SciBench \\
+\midrule
+Qwen3-4B-Instruct & 59.62 & 25.00 & 59.90 & 54.95 & 31.71 \\
+instruct-gspo & 61.98 & 25.94 & 59.85 & 54.99 & 32.76 \\
+instruct-grpo & 61.98 & 26.87 & 59.79 & 55.15 & 32.12 \\
+\midrule
+$\Delta$ gspo & +2.36 & +0.94 & -0.05 & +0.04 & +1.05 \\
+$\Delta$ grpo & +2.36 & +1.87 & -0.11 & +0.20 & +0.41 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+这组训练结果不作为最终 paper claim，而是作为 early training-utility signal：仅约 2K 条 AgenQA 数据已经在 AIM24、HMMT-FEB 和 SciBench 上显示正迁移。GPQA / GPQA-Diamond 基本持平，其中 GPQA-Diamond 的 -0.05 / -0.11 在没有方差、置信区间或 paired test 的情况下不应解读为真实退化。
 
 \subsection{Representative Path View Samples}
 

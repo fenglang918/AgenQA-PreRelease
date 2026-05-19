@@ -13,7 +13,7 @@ AgenQA 研究的问题是：如何合成真正有挑战性的 scientific reasoni
 - **核心方法**：先构造一条 step-verifiable **Chain-of-KQA**，再通过 **Path-Fold** 隐藏中间 facts，形成更难的 solver-facing **Path View**。
 - **验证视角**：同一条 dependency chain 同时投影为局部 **Edge View** 和全局 **Path View**，分离 correctness control 与 difficulty amplification。
 - **系统设计**：用 **Director--Operator--Evaluator loop** 组织 init / extend / revise / finish，让 generation、verification 和 repair 发生在同一显式 reasoning state 上。
-- **阶段信号**：Path View 题目在 SOTA solver 评测中整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关（4B 为 **48.00%**，32B 为 **66.86%**）。
+- **阶段信号**：Path View 题目在 SOTA solver 评测中整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关（4B 为 **48.00%**，32B 为 **66.86%**）；早期下游训练中，约 **2K** 条 AgenQA 数据让 Qwen3-4B-Instruct 在 AIM24 上从 **59.62** 提升到 **61.98**，同时 GPQA 系列基本持平。
 
 ## 推荐阅读路径
 
@@ -24,7 +24,7 @@ PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and C
 | 想快速看什么 | 入口 |
 | --- | --- |
 | 论文式项目说明 | [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) |
-| 两个核心实验表 | [docs/experiments.zh.md](./docs/experiments.zh.md) |
+| 核心实验表 | [docs/experiments.zh.md](./docs/experiments.zh.md) |
 | 三道代表性样例题 | [docs/examples.pdf](./docs/examples.pdf) |
 | 系统与方法架构 | [docs/architecture.zh.md](./docs/architecture.zh.md) |
 | Prompt 角色边界 | [prompts/](./prompts/) |
@@ -33,7 +33,7 @@ PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and C
 
 1. **Edge/Path-grounded Chain-of-KQA formalism**：将 correctness--difficulty tension 转化为 step-to-global design principle：Edge View 支持 step-level correctness control，Path-Fold 在同一条 generated chain 上放大全局 difficulty。
 2. **Scalable and extensible agentic synthesis harness**：将 QA generation 视为显式知识依赖上的受控 state-transition process；Director--Operator--Evaluator loop 通过 grounding、state persistence、dependency auditability、contract-based stabilization 和 evaluator-guided repair 等显式 controls 支持可扩展 synthesis，并保持 Operator layer modular。
-3. **Pre-release benchmark evidence with SOTA and Qwen-family evaluations**：当前 public preview 展示两组 benchmark-construction signals：SOTA solver 评测覆盖 `96` 次 synthesis runs / `547` 道 Path View questions，整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**，说明 Path View 在强模型区间仍保留难度和区分区域；Qwen-family 梯度评测覆盖 `37` 次 runs / `175` 道 Path View questions，同一 benchmark 上 accuracy 从 **48.00%**（4B）上升到 **66.86%**（32B），与模型尺寸/预期能力一致，可作为 benchmark 合理性的 scale-consistency sanity check，并低成本补充人工逐题审查。
+3. **Pre-release benchmark and training-utility evidence**：当前 public preview 展示两类 evidence。Benchmark-construction signals 包括：SOTA solver 评测覆盖 `96` 次 synthesis runs / `547` 道 Path View questions，整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**，说明 Path View 在强模型区间仍保留难度和区分区域；Qwen-family 梯度评测覆盖 `37` 次 runs / `175` 道 Path View questions，同一 benchmark 上 accuracy 从 **48.00%**（4B）上升到 **66.86%**（32B），可作为 benchmark 合理性的 scale-consistency sanity check。Early downstream training signal 显示：约 `2,000` 条 AgenQA 数据训练后的 Qwen3-4B-Instruct variants 在 AIM24、HMMT-FEB 和 SciBench 上出现正向迁移，GPQA / GPQA-Diamond 基本持平。
 
 ## Core Idea
 

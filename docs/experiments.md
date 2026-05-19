@@ -2,9 +2,9 @@
 
 [中文](./experiments.zh.md)
 
-This page summarizes an evaluation snapshot from the March 26, 2026 project report. It shows that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal.
+This page summarizes several pre-release evaluation snapshots. They show that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal and early evidence that a small amount of AgenQA data can serve as downstream training signal.
 
-The paper framing of AgenQA separates the roles of Edge and Path views: Edge Views support step-level correctness control, while Path-Fold creates solver-facing Path View questions. This page keeps two complementary checks: one for the difficulty and discriminative region among strong solvers, and one for the positive correlation between benchmark accuracy and model scale / expected capability within the Qwen family as a scale-consistency sanity check.
+The paper framing of AgenQA separates the roles of Edge and Path views: Edge Views support step-level correctness control, while Path-Fold creates solver-facing Path View questions. This page keeps three complementary checks: two benchmark-construction signals, including the difficulty / discriminative region among strong solvers and the Qwen-family scale-consistency sanity check; and one early downstream training result that probes whether a small amount of AgenQA data transfers to external reasoning benchmarks.
 
 ## Table 1. SOTA Solvers on Path View Questions
 
@@ -30,4 +30,23 @@ This table comes from an earlier set of `37` synthesis runs / `175` Path View qu
 | Qwen3-32B | 66.86% | 50.00% | larger-model improvement |
 | All solvers | 59.54% | 38.97% | family-level aggregate |
 
-Together, the two tables show that AgenQA's Path-Fold does more than create longer problem statements: it preserves a generator-side dependency state while producing solver-facing benchmark items with measurable difficulty, strong-solver discrimination, and model-scale consistency.
+## Table 3. Early Training Transfer from 2K AgenQA Examples
+
+This table comes from an early downstream training evaluation. Starting from `Qwen3-4B-Instruct`, `instruct-gspo` and `instruct-grpo` were trained with around `2,000` AgenQA examples and evaluated on external math / science benchmarks with `32` averaged evaluation runs. This is not presented as a final paper claim; it is an early training-utility signal: whether a small amount of structured AgenQA data can produce positive transfer without a visible GPQA-family trade-off.
+
+| Model | aim24 | HMMT-FEB | GPQA-Diamond | GPQA | SciBench |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Qwen3-4B-Instruct baseline | 59.62 | 25.00 | 59.90 | 54.95 | 31.71 |
+| instruct-gspo | 61.98 | 25.94 | 59.85 | 54.99 | 32.76 |
+| instruct-grpo | 61.98 | 26.87 | 59.79 | 55.15 | 32.12 |
+
+Changes relative to the baseline:
+
+| Model | aim24 | HMMT-FEB | GPQA-Diamond | GPQA | SciBench |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| instruct-gspo | +2.36 | +0.94 | -0.05 | +0.04 | +1.05 |
+| instruct-grpo | +2.36 | +1.87 | -0.11 | +0.20 | +0.41 |
+
+The clearest positive signal is `aim24`, where both trained models improve by `+2.36`. `HMMT-FEB` improves most under `instruct-grpo`, while `SciBench` shows a positive signal especially under `instruct-gspo`. `GPQA` and `GPQA-Diamond` remain essentially unchanged; the `-0.05 / -0.11` differences on `GPQA-Diamond` should not be interpreted as a real degradation without variance, confidence intervals, or a paired test.
+
+Together, the three tables show that AgenQA's Path-Fold does more than create longer problem statements: it preserves a generator-side dependency state while producing solver-facing benchmark items with measurable difficulty, strong-solver discrimination, and model-scale consistency. The 2K training snapshot also provides an early downstream training-utility signal.

@@ -13,7 +13,7 @@ AgenQA studies how to synthesize challenging scientific reasoning QA data while 
 - **Core method**: grow a step-verifiable **Chain-of-KQA**, then apply **Path-Fold** to hide intermediate facts and create a harder solver-facing **Path View**.
 - **Verification views**: project the same dependency chain into local **Edge Views** and global **Path Views**, separating correctness control from difficulty amplification.
 - **System design**: organize init / extend / revise / finish through a **Director--Operator--Evaluator loop** over an explicit reasoning state.
-- **Evaluation signal**: Path View questions reach **84.18%** aggregate accuracy across SOTA solvers and **51.77%** on a diagnostic subset; within the Qwen family, benchmark accuracy is positively correlated with model scale / expected capability (**48.00%** for 4B and **66.86%** for 32B).
+- **Evaluation signal**: Path View questions reach **84.18%** aggregate accuracy across SOTA solvers and **51.77%** on a diagnostic subset; within the Qwen family, benchmark accuracy is positively correlated with model scale / expected capability (**48.00%** for 4B and **66.86%** for 32B). In an early downstream training snapshot, around **2K** AgenQA examples improve Qwen3-4B-Instruct from **59.62** to **61.98** on AIM24 while keeping GPQA-family scores essentially unchanged.
 
 ## Recommended Reading
 
@@ -22,7 +22,7 @@ Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.z
 | What to inspect | Entry |
 | --- | --- |
 | Paper-style project overview | [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) |
-| Two core evaluation tables | [docs/experiments.md](./docs/experiments.md) |
+| Core evaluation tables | [docs/experiments.md](./docs/experiments.md) |
 | Three representative sample questions | [docs/examples.pdf](./docs/examples.pdf) |
 | Architecture and system framing | [docs/architecture.md](./docs/architecture.md) |
 | Prompt role boundaries | [prompts/](./prompts/) |
@@ -31,7 +31,7 @@ Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.z
 
 1. **Edge/Path-grounded Chain-of-KQA formalism**: turn the correctness--difficulty tension in challenging reasoning QA synthesis into a step-to-global design principle: Edge Views support step-level correctness control, while Path-Fold amplifies global difficulty over the same generated chain.
 2. **Scalable and extensible agentic synthesis harness**: treat QA generation as a controlled state-transition process over explicit knowledge dependencies. Organized as a Director--Operator--Evaluator loop, the harness supports scalable synthesis by making grounding, state persistence, dependency auditability, contract-based stabilization, and evaluator-guided repair explicit controls, while keeping the Operator layer modular.
-3. **Pre-release benchmark evidence with SOTA and Qwen-family evaluations**: present two benchmark-construction signals in the public preview. The SOTA-solver evaluation covers `96` synthesis runs / `547` Path View questions, reaching **84.18%** aggregate accuracy and **51.77%** diagnostic-subset accuracy, showing that Path Views retain a discriminative region among strong solvers. The Qwen-family gradient covers `37` runs / `175` Path View questions, with accuracy rising from **48.00%** for 4B to **66.86%** for 32B on the same benchmark; this scale-consistent ordering serves as a benchmark sanity check and a lightweight complement to item-level human review.
+3. **Pre-release benchmark and training-utility evidence**: present two kinds of evidence in the public preview. Benchmark-construction signals include a SOTA-solver evaluation over `96` synthesis runs / `547` Path View questions, reaching **84.18%** aggregate accuracy and **51.77%** diagnostic-subset accuracy, and a Qwen-family gradient over `37` runs / `175` Path View questions, with accuracy rising from **48.00%** for 4B to **66.86%** for 32B on the same benchmark as a scale-consistency sanity check. An early downstream training snapshot further shows that Qwen3-4B-Instruct variants trained with around `2,000` AgenQA examples transfer positively to AIM24, HMMT-FEB, and SciBench while keeping GPQA / GPQA-Diamond essentially unchanged.
 
 ## Core Idea
 
