@@ -61,9 +61,11 @@ AgenQA 将同一条 underlying chain 暴露为两种 solver-facing views。
 - **Visibility separation**：中间 key facts、step history 和内部指针不能泄露给 solver。
 - **Path preservation**：题目仍然可以求解，但需要重构 dependency path 或等价推理路径。
 
-## Agentic State-Transition Harness
+下面的构造型三步数学例子把这些抽象落到一个 candidate-prefix control event。Panel A 展示 Premises、Intermediate Memory 与 accepted chain 如何共同增长；Panel B 展示不匹配的 candidate answer 如何根据 solver feedback 被局部 revise；Panel C 对同一 candidate prefix 应用 support-exposed **Step View** 与 intermediate-hidden **Folded View**。在这套读者侧表达中，Step View 对应局部 Edge evaluation，Folded View 是用于探测端到端难度的 Path-Fold projection。该图只是 illustrative worked example，不是 actual AgenQA run、gold case、benchmark result 或 difficulty claim。
 
-![Agentic Operators over a Chain-of-KQA State](./figures/figure2_agentic_operators_chain_state.png)
+![Candidate-prefix control worked example](./figures/figure2_candidate_prefix_dual_view.png)
+
+## Agentic State-Transition Harness
 
 整个 synthesis process 是作用在 progressive chain 及其 solver-facing views 上的 controlled state-transition loop。
 
@@ -72,6 +74,8 @@ d_r = D(S_r)
 S_{r+1} = O_{d_r}(S_r)
 z_{r+1} = E(Pi(S_{r+1}))
 ```
+
+![Agentic Operators over a Chain-of-KQA State](./figures/figure3_agentic_operators_chain_state.png)
 
 其中：
 

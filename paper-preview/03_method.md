@@ -61,9 +61,11 @@ A valid fold must satisfy:
 - **Visibility separation**: intermediate key facts, step history, and internal pointers are not leaked as solver-visible givens.
 - **Path preservation**: the folded question remains solvable only by reconstructing the dependency path or an equivalent reasoning path.
 
-## Agentic State-Transition Harness
+The following constructed three-step example grounds these abstractions in one candidate-prefix control event. Panel A shows how Premises, Intermediate Memory, and the accepted chain grow together. Panel B shows a mismatched candidate answer being revised locally from solver feedback. Panel C applies a support-exposed **Step View** and an intermediate-hidden **Folded View** to the same candidate prefix. In this reader-facing presentation, Step View corresponds to local Edge evaluation, while Folded View is the Path-Fold projection used to probe end-to-end difficulty. This is an illustrative worked example, not an actual AgenQA run, gold case, benchmark result, or difficulty claim.
 
-![Agentic Operators over a Chain-of-KQA State](./figures/figure2_agentic_operators_chain_state.png)
+![Worked candidate-prefix control example](./figures/figure2_candidate_prefix_dual_view.png)
+
+## Agentic State-Transition Harness
 
 The synthesis process is a controlled state-transition loop over the progressive chain and its solver-facing views.
 
@@ -72,6 +74,8 @@ d_r = D(S_r)
 S_{r+1} = O_{d_r}(S_r)
 z_{r+1} = E(Pi(S_{r+1}))
 ```
+
+![Agentic Operators over a Chain-of-KQA State](./figures/figure3_agentic_operators_chain_state.png)
 
 where:
 

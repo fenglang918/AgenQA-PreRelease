@@ -69,4 +69,4 @@ Evaluator 使用 solver responses、multi-solver consensus 和 judge signals 检
 
 ![Step-Verifiable Chain Growth and Path-Fold](../paper-preview/figures/figure1_chain_growth_path_fold.png)
 
-![Agentic Operators over a Chain-of-KQA State](../paper-preview/figures/figure2_agentic_operators_chain_state.png)
+![Agentic Operators over a Chain-of-KQA State](../paper-preview/figures/figure3_agentic_operators_chain_state.png)

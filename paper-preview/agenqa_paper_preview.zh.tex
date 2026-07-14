@@ -122,14 +122,16 @@ AgenQA 将同一条 underlying chain 暴露为两种 solver-facing views。Edge 
   \item \textbf{Path preservation}: 题目仍然可以求解，但需要重构 dependency path 或等价推理路径。
 \end{itemize}
 
-\subsection{Agentic State-Transition Harness}
+图~\ref{fig:candidate-prefix-control} 用一个构造的三步数学例子把这些抽象落到 candidate-prefix control event。Panel A 展示 Premises、Intermediate Memory 与 accepted chain 如何逐步增长；Panel B 展示错误 candidate answer 如何通过 solver feedback 被局部 revise；Panel C 展示同一 candidate prefix 的 Step View 与 Folded View。这里的 Step View 对应局部 Edge evaluation，Folded View 对应隐藏中间结果的 Path-Fold projection。该例子仅用于解释机制，不是 actual AgenQA run、gold case、benchmark result 或 difficulty evidence。
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=0.94\linewidth]{figures/figure2_agentic_operators_chain_state.png}
-  \caption{Agentic operators over a Chain-of-KQA state. Extension and revision reuse the same synthesis core but apply different state-edit semantics.}
-  \label{fig:operators}
+  \includegraphics[width=\linewidth]{figures/figure2_candidate_prefix_dual_view.png}
+  \caption{A worked illustration of premise-grounded chain growth, local revision, and dual-view evaluation of a candidate prefix. This constructed example is not an actual AgenQA run.}
+  \label{fig:candidate-prefix-control}
 \end{figure}
+
+\subsection{Agentic State-Transition Harness}
 
 整个 synthesis process 是作用在 progressive chain 及其 solver-facing views 上的 controlled state-transition loop：
 \[
@@ -138,6 +140,13 @@ S_{r+1}=O_{d_r}(S_r),\qquad
 z_{r+1}=E(\Pi(S_{r+1})).
 \]
 其中 $S_r$ 是第 $r$ 轮 synthesis state，$D$ 是 Director controller，$d_r$ 是被选择的 operation，$O$ 是对应 Operator，$\Pi$ 构造 Edge/Path projections，$E$ 返回 solver、consensus 和 acceptance signals。
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.94\linewidth]{figures/figure3_agentic_operators_chain_state.png}
+  \caption{Agentic operators over a Chain-of-KQA state. Extension and revision reuse the same synthesis core but apply different state-edit semantics.}
+  \label{fig:operators}
+\end{figure}
 
 \tightparagraph{Director.} Director 负责从 available operator set 中选择下一步。它读取 progress limits、recent chain history、memory windows、available operations、question-type policy、Edge/Path solver outcomes、consensus summaries、ambiguity / contract reports 和 repair history。
 
