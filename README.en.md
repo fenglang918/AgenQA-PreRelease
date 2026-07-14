@@ -15,6 +15,10 @@ AgenQA studies how to synthesize challenging scientific reasoning QA data while 
 - **System design**: organize init / extend / revise / finish through a **Director--Operator--Evaluator loop** over an explicit reasoning state.
 - **Evaluation signal**: Path View questions reach **84.18%** aggregate accuracy across SOTA solvers and **51.77%** on a diagnostic subset; within the Qwen family, benchmark accuracy is positively correlated with model scale / expected capability (**48.00%** for 4B and **66.86%** for 32B). In an early downstream training snapshot, around **2K** AgenQA examples improve Qwen3-4B-Instruct from **59.62** to **61.98** on AIM24 while keeping GPQA-family scores essentially unchanged.
 
+**Complementary worked example:** the constructed three-step example below shows how Premises and Intermediate Memory grow, how a mismatched candidate answer is revised locally, and how the same candidate prefix enters Step/Folded dual-view evaluation. It explains the mechanism rather than reporting an actual AgenQA run, gold case, or difficulty result.
+
+![AgenQA candidate-prefix control worked example](./paper-preview/figures/figure2_candidate_prefix_dual_view.png)
+
 ## Recommended Reading
 
 Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf). It contains the most polished paper-style overview: title, abstract, Motivation and Core Idea, Contributions, AgenQA Framework, Experimental Showcase, Conclusion, and References.

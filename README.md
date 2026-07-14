@@ -15,6 +15,10 @@ AgenQA 研究的问题是：如何合成真正有挑战性的 scientific reasoni
 - **系统设计**：用 **Director--Operator--Evaluator loop** 组织 init / extend / revise / finish，让 generation、verification 和 repair 发生在同一显式 reasoning state 上。
 - **阶段信号**：Path View 题目在 SOTA solver 评测中整体准确率为 **84.18%**，诊断子集准确率为 **51.77%**；在 Qwen-family 内，同一 benchmark 的 accuracy 与模型规模/理论能力呈正相关（4B 为 **48.00%**，32B 为 **66.86%**）；早期下游训练中，约 **2K** 条 AgenQA 数据让 Qwen3-4B-Instruct 在 AIM24 上从 **59.62** 提升到 **61.98**，同时 GPQA 系列基本持平。
 
+**互补 worked example：** 下面的构造型三步数学例子进一步展示 Premises 与 Intermediate Memory 如何增长、错误 candidate answer 如何被局部 revise，以及同一 candidate prefix 如何进入 Step/Folded 双视图评测。它用于解释机制，不是 actual AgenQA run、gold case 或难度证据。
+
+![AgenQA candidate-prefix control worked example](./paper-preview/figures/figure2_candidate_prefix_dual_view.png)
+
 ## 推荐阅读路径
 
 **首选阅读：** [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf)
