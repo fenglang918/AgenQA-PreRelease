@@ -1,0 +1,50 @@
+contract:
+  instruction: |
+    Extract a stable episode_seed from the input paper for downstream closed-book reasoning problem generation.
+    The goal is not to retell the research story, but to capture reusable, inferable, expandable topic anchors.
+
+    In addition to `subject` and `keywords`, you must output a concise `problem_brief`:
+    - Keep only the background that is genuinely useful for problem generation: object of study, core mechanism/variables, task form, assumptions, and boundaries.
+    - Prefer material that can support explanation and closed-book reasoning without requiring real experiments to be rerun.
+    - If the paper is empirical/experimental, abstract upward to the problem setting and mechanism. Do NOT include experimental design, datasets, evaluation metrics, benchmark comparisons, statistical tests, ablation findings, effect sizes, or "the paper discovered/verified X" style posterior claims.
+    - Do not restate final conclusions/answers. Do not turn hypotheses that require real experiments into direct exam targets.
+
+    The output must strictly follow the output_schema.
+  output_schema:
+    type: object
+    additionalProperties: false
+    properties:
+      subject:
+        type: string
+        description: "Primary subject area (discipline-subfield)"
+      keywords:
+        type: array
+        items: { type: string }
+        minItems: 5
+        maxItems: 10
+        description: "5-10 deduplicated keywords/phrases; prioritize objects/variables/mechanisms/tasks over evaluation details"
+      anchor_fields:
+        type: object
+        additionalProperties: false
+        properties:
+          topic_task:
+            type: string
+            description: "Problem setting / task description"
+          core_objects_symbols:
+            type: string
+            description: "Core objects, variables, symbols, or system components"
+          regime_assumptions:
+            type: string
+            description: "Assumptions, conditions, boundaries, or regime"
+        required:
+          - topic_task
+          - core_objects_symbols
+          - regime_assumptions
+      problem_brief:
+        type: string
+        description: "A 2-4 sentence problem-generation brief focused on object/mechanism/task/conditions; exclude experimental results, benchmarks, datasets, and posterior validation claims"
+    required:
+      - subject
+      - keywords
+      - anchor_fields
+      - problem_brief

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "release_type": "aggregate_preview",
+  "public_summary": "../docs/experiments.md",
+  "snapshots": [
+    {
+      "id": "path-view-strong-solvers",
+      "file": "path_view_strong_solvers.csv",
+      "scope": {
+        "synthesis_runs": 96,
+        "unique_path_view_questions": 547
+      },
+      "granularity": "aggregate solver counts",
+      "raw_outputs_included": false
+    },
+    {
+      "id": "qwen-scale-consistency",
+      "file": "qwen_scale_consistency.csv",
+      "scope": {
+        "synthesis_runs": 37,
+        "unique_path_view_questions": 175
+      },
+      "granularity": "aggregate solver accuracy",
+      "raw_outputs_included": false
+    },
+    {
+      "id": "training-transfer-2k",
+      "file": "training_transfer_2k.csv",
+      "scope": {
+        "training_examples": "approximately 2000",
+        "averaged_evaluation_runs": 32
+      },
+      "granularity": "aggregate benchmark score",
+      "raw_outputs_included": false
+    }
+  ],
+  "release_boundaries": [
+    "The CSV files reproduce the aggregate values already shown in docs/experiments.md.",
+    "They do not contain prompts, generated questions, per-item judgments, model responses, or private run paths.",
+    "The training snapshot is early evidence and does not include variance estimates or paired significance tests."
+  ]
+}

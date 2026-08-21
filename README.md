@@ -2,7 +2,7 @@
 
 **AgenQA 研究项目预览：agentic data synthesis for scientific reasoning QA benchmark construction。**
 
-[Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [实验展示](./docs/experiments.zh.md) · [样例题 PDF](./docs/examples.pdf) · [系统架构](./docs/architecture.zh.md) · [Prompt 文件](./prompts/) · [English](./README.en.md)
+[Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [完整代码运行](./docs/quickstart.zh.md) · [示例论文 PDF](./examples/papers/layered_thermal_transport_demo.pdf) · [机器可读结果](./results/README.zh.md) · [English](./README.en.md)
 
 ## 30 秒版
 
@@ -32,6 +32,10 @@ PDF 已整理为论文式展示文档，包含标题、摘要、Motivation and C
 | 三道代表性样例题 | [docs/examples.pdf](./docs/examples.pdf) |
 | 系统与方法架构 | [docs/architecture.zh.md](./docs/architecture.zh.md) |
 | Prompt 角色边界 | [prompts/](./prompts/) |
+| 完整 runtime 与一键运行 | [docs/quickstart.zh.md](./docs/quickstart.zh.md) |
+| 可直接输入的示例论文 | [examples/papers/layered_thermal_transport_demo.pdf](./examples/papers/layered_thermal_transport_demo.pdf) |
+| 源代码快照与公网适配差异 | [docs/source-provenance.md](./docs/source-provenance.md) |
+| 聚合结果 CSV 与 manifest | [results/](./results/) |
 
 ## 核心贡献
 
@@ -56,6 +60,24 @@ AgenQA 不把困难题生成当作一次性 final-question generation，而是�
 - **Agentic State-Transition Harness**：Director 选择操作，Operators 修改 chain state，Evaluator 读取 solver / consensus / contract signals。
 - **Scalable and Extensible Design**：extend、revise、evaluation、routing 共用同一 state interface，方便扩展 chain length、solver ensemble 和 domain adapters。
 
+## 完整代码与运行
+
+- `src/agenqa/` 包含完整的 domain / prompts / skills / nodes / graph / memory / evaluation / downstream runtime。
+- `src/infra/` 包含实际使用的 HTTP inference client、PDF loader、prompt tracking、artifact I/O、playback 和可选 code verifier。
+- `config/agent_openai.yaml` 提供只需 `OPENAI_API_KEY` 的 portable config；`agenqa-demo` 会直接运行完整 graph。
+- `tests/` 包含原 runtime 回归测试与新增的公网 API/PDF portability 测试。
+- `results/` 将当前三张公开实验表转为 CSV + manifest，不包含原始题目、逐题回复或私有 run 路径。
+
+快速开始：
+
+```bash
+python -m pip install -e ".[test]"
+export OPENAI_API_KEY="your-key"
+agenqa-demo
+```
+
+完整命令、输出结构和自定义 PDF 用法见 [运行指南](./docs/quickstart.zh.md)。代码以 [Apache-2.0](./LICENSE) 许可证发布。
+
 ## My Role
 
 我在 **2025 年 11 月至 2026 年 3 月** 作为项目负责人推进 AgenQA，主要负责：
@@ -74,4 +96,10 @@ AgenQA 不把困难题生成当作一次性 final-question generation，而是�
 paper-preview/   论文式项目预览；推荐优先阅读 PDF
 docs/            架构说明、实验结果、样例题和 artifact map
 prompts/         公开的角色级 prompt excerpts
+src/agenqa/      完整 AgenQA runtime
+src/infra/       API / PDF / artifact / playback 基础设施
+config/          可携式 API 配置
+examples/papers/ 可直接运行的合成论文 PDF
+tests/           runtime 回归与 portability 验证
+results/         公开表格的 CSV 与 release manifest
 ```

@@ -2,7 +2,7 @@
 
 **AgenQA research project preview: agentic data synthesis for scientific reasoning QA benchmark construction.**
 
-[中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Evaluation Results](./docs/experiments.md) · [Sample Questions](./docs/examples.pdf) · [Architecture](./docs/architecture.md) · [Prompt Files](./prompts/)
+[中文](./README.md) · [Paper Preview PDF](./paper-preview/agenqa_paper_preview.zh.pdf) · [Run the Full Code](./docs/quickstart.md) · [Demo Paper PDF](./examples/papers/layered_thermal_transport_demo.pdf) · [Machine-Readable Results](./results/README.md)
 
 ## 30-Second Snapshot
 
@@ -30,6 +30,10 @@ Start with the [AgenQA Paper Preview PDF](./paper-preview/agenqa_paper_preview.z
 | Three representative sample questions | [docs/examples.pdf](./docs/examples.pdf) |
 | Architecture and system framing | [docs/architecture.md](./docs/architecture.md) |
 | Prompt role boundaries | [prompts/](./prompts/) |
+| Complete runtime and quickstart | [docs/quickstart.md](./docs/quickstart.md) |
+| Ready-to-run paper input | [examples/papers/layered_thermal_transport_demo.pdf](./examples/papers/layered_thermal_transport_demo.pdf) |
+| Source snapshot and portability deltas | [docs/source-provenance.md](./docs/source-provenance.md) |
+| Aggregate result CSVs and manifest | [results/](./results/) |
 
 ## Contributions
 
@@ -54,6 +58,22 @@ AgenQA does not treat difficult-question generation as one-shot final-question w
 - **Agentic State-Transition Harness**: Director chooses operations, Operators edit chain state, and Evaluator reads solver / consensus / contract signals.
 - **Scalable and Extensible Design**: extend, revise, evaluation, and routing share one state interface, making chain length, solver ensembles, and domain adapters replaceable.
 
+## Complete Code and Execution
+
+- `src/agenqa/` contains the complete domain / prompts / skills / nodes / graph / memory / evaluation / downstream runtime.
+- `src/infra/` contains the actual HTTP inference client, PDF loader, prompt tracking, artifact I/O, playback, and optional code verifier.
+- `config/agent_openai.yaml` is a portable configuration requiring only `OPENAI_API_KEY`; `agenqa-demo` runs the complete graph.
+- `tests/` combines the original runtime regressions with public API/PDF portability tests.
+- `results/` exposes the three public evaluation tables as aggregate CSV snapshots without raw questions, per-item responses, or private run paths.
+
+```bash
+python -m pip install -e ".[test]"
+export OPENAI_API_KEY="your-key"
+agenqa-demo
+```
+
+See the [quickstart](./docs/quickstart.md) for the direct CLI, output layout, and custom PDF usage. The code is released under the [Apache-2.0 License](./LICENSE).
+
 ## My Role
 
 I led AgenQA from **November 2025 to March 2026**. My main work covered:
@@ -72,4 +92,10 @@ I led AgenQA from **November 2025 to March 2026**. My main work covered:
 paper-preview/   Paper-style project preview; read the PDF first
 docs/            Architecture notes, evaluation results, sample questions, artifact map
 prompts/         Public role-level prompt excerpts
+src/agenqa/      Complete AgenQA runtime
+src/infra/       API, PDF, artifact, and playback infrastructure
+config/          Portable API configuration
+examples/papers/ Ready-to-run synthetic paper PDF
+tests/           Runtime regression and portability checks
+results/         Public-table CSVs and release manifest
 ```

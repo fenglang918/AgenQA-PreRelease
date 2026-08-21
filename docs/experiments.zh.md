@@ -1,6 +1,6 @@
 # 阶段性评测结果
 
-[English](./experiments.md)
+[English](./experiments.md) · [机器可读 CSV 快照](../results/README.zh.md)
 
 本页整理若干 pre-release evaluation snapshots，用于说明 AgenQA 生成的 **Path View** 题目已经呈现出可用的 benchmark-construction signal，并初步显示少量 AgenQA 数据可作为下游训练信号。
 

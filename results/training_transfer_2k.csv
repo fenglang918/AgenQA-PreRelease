@@ -1,0 +1,4 @@
+model,aim24,hmmt_feb,gpqa_diamond,gpqa,scibench
+Qwen3-4B-Instruct baseline,59.62,25.00,59.90,54.95,31.71
+instruct-gspo,61.98,25.94,59.85,54.99,32.76
+instruct-grpo,61.98,26.87,59.79,55.15,32.12

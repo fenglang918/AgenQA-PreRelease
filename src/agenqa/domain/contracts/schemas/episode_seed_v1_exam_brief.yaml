@@ -1,0 +1,50 @@
+contract:
+  instruction: |
+    从输入论文中抽取一个适合闭卷推理题生成的稳定 episode_seed。
+    目标不是复述研究叙事，而是提炼可复用、可推理、可扩展的话题锚点。
+
+    除了 `subject` 与 `keywords` 外，你还需要输出一个精炼的 `problem_brief`：
+    - 只保留出题真正需要的背景：研究对象、核心机制/变量、任务形式、适用条件与边界。
+    - 优先抽象成“可以讲清楚、可以闭卷推理、可以不依赖真实实验执行”的内容。
+    - 如果论文偏实验/实证风格，请向上抽象为问题设定与机制，不要带入实验设计、数据集、评价指标、性能比较、统计检验、消融结论、经验效应量，或“作者发现/验证了什么”这类后验结果。
+    - 不要复述最终结论/答案，不要把需要真实实验才能验证的科研假设直接当作出题考点。
+
+    输出必须严格符合 output_schema。
+  output_schema:
+    type: object
+    additionalProperties: false
+    properties:
+      subject:
+        type: string
+        description: "论文的核心研究主题（学科-方向）"
+      keywords:
+        type: array
+        items: { type: string }
+        minItems: 5
+        maxItems: 10
+        description: "5-10 个关键词（去重，短语优先；优先保留对象/变量/机制/任务，不要塞实验评价细节）"
+      anchor_fields:
+        type: object
+        additionalProperties: false
+        properties:
+          topic_task:
+            type: string
+            description: "问题设定 / 任务描述"
+          core_objects_symbols:
+            type: string
+            description: "核心对象、变量、符号或系统构件"
+          regime_assumptions:
+            type: string
+            description: "适用条件、假设、边界或讨论 regime"
+        required:
+          - topic_task
+          - core_objects_symbols
+          - regime_assumptions
+      problem_brief:
+        type: string
+        description: "2-4 句、面向闭卷推理题生成的压缩背景 brief；聚焦对象/机制/任务/条件，不写实验结果、benchmark、数据集和后验验证结论"
+    required:
+      - subject
+      - keywords
+      - anchor_fields
+      - problem_brief

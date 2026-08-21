@@ -1,0 +1,39 @@
+contract:
+  instruction: |
+    从输入材料中抽取稳定的 episode_seed，用于后续多步推理题生成的“话题锚定”。
+    不要复述结论/答案；只保留可复用、非冗余的信息。
+    输出必须严格符合 output_schema。
+  output_schema:
+    type: object
+    additionalProperties: false
+    properties:
+      subject:
+        type: string
+        description: "论文的核心研究主题（学科-方向）"
+      keywords:
+        type: array
+        items: { type: string }
+        minItems: 5
+        maxItems: 10
+        description: "5-10 个关键词（去重，短语优先）"
+      anchor_fields:
+        type: object
+        additionalProperties: false
+        properties:
+          topic_task:
+            type: string
+            description: "Topic/Task 描述"
+          core_objects_symbols:
+            type: string
+            description: "核心对象/符号"
+          regime_assumptions:
+            type: string
+            description: "假设/条件/适用 regime"
+        required:
+          - topic_task
+          - core_objects_symbols
+          - regime_assumptions
+    required:
+      - subject
+      - keywords
+      - anchor_fields

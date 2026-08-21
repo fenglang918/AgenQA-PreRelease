@@ -1,6 +1,6 @@
 # Evaluation Snapshot
 
-[中文](./experiments.zh.md)
+[中文](./experiments.zh.md) · [Machine-readable CSV snapshots](../results/README.md)
 
 This page summarizes several pre-release evaluation snapshots. They show that AgenQA-generated **Path View** questions already provide useful benchmark-construction signal and early evidence that a small amount of AgenQA data can serve as downstream training signal.
 

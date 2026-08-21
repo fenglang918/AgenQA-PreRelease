@@ -1,0 +1,7 @@
+solver,all_correct,all_total,all_accuracy_pct,diagnostic_correct,diagnostic_total,diagnostic_accuracy_pct
+claude-sonnet-4-6,466,574,81.18,63,150,42.00
+gemini-3.1-pro-preview,254,294,86.39,47,78,60.26
+glm-5,494,574,86.06,89,150,59.33
+gpt-5.4-2026-03-05,469,574,81.71,62,150,41.33
+qwen3.5-plus,498,575,86.61,90,150,60.00
+all-solvers,2181,2591,84.18,351,678,51.77

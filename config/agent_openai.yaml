@@ -1,0 +1,88 @@
+# Portable full-runtime configuration for one OpenAI or OpenAI-compatible API.
+# Required: OPENAI_API_KEY
+# Optional: AGENQA_API_BASE, AGENQA_API_STYLE, AGENQA_MODEL,
+#           AGENQA_MEDIUM_MODEL, AGENQA_STRONG_MODEL
+
+x-generator: &generator
+  service_type: "private_endpoint"
+  api_base: "${AGENQA_API_BASE:-https://api.openai.com/v1}"
+  api_key: "${OPENAI_API_KEY}"
+  api_style: "${AGENQA_API_STYLE:-responses}"
+  model_name: "${AGENQA_MODEL:-gpt-5-mini}"
+  generation:
+    max_output_tokens: 4096
+  client:
+    timeout: 180
+
+agent:
+  # Initial state is step 0, so max_steps=3 produces up to two QA steps.
+  max_steps: 3
+  max_rounds: 6
+  max_consecutive_revise: 2
+  director_history_tail: 2
+  director_window: 2
+  director_path_window: 2
+  enable_final_summary: false
+  allowed_operations: ["Extend", "Revise", "Finish"]
+  question_type_policy:
+    # Keep the first public demo deterministic and avoid optional local numeric tools.
+    allowed_question_types: ["Derivation"]
+    no_mcq_from_step: 1
+  lang: "en"
+  roles_protocol: "json"
+  format_validation_mode: "hard"
+  path_kqa_variant: "direct"
+  output_dir: "outputs/agent_run"
+
+init:
+  source:
+    type: "paper"
+    path: "${SCICLONE_PAPER_PATH:-examples/papers/layered_thermal_transport_demo.pdf}"
+    pdf_extract:
+      text_extractor: "simple"
+      max_pages: 12
+      attach_pdf: false
+      include_image_placeholders: false
+      include_caption_block: false
+      include_ocr_block: false
+    scipedia_pack: {}
+  episode_seed:
+    enable: true
+    contract_path: "src/agenqa/domain/contracts/schemas/episode_seed_v1_en.yaml"
+    generator: null
+  generator: *generator
+
+director:
+  prompt_path: "src/agenqa/prompts/director.py"
+  generator: *generator
+
+operators:
+  extend:
+    prompt_path: "src/agenqa/prompts/extend.py"
+    generator: *generator
+  revise:
+    prompt_path: "src/agenqa/prompts/revise.py"
+    generator: *generator
+
+solvers:
+  medium:
+    prompt_path: "src/agenqa/prompts/solver.py"
+    generator:
+      <<: *generator
+      model_name: "${AGENQA_MEDIUM_MODEL:-gpt-5-mini}"
+      generation:
+        max_output_tokens: 2048
+  strong:
+    prompt_path: "src/agenqa/prompts/solver.py"
+    generator:
+      <<: *generator
+      model_name: "${AGENQA_STRONG_MODEL:-gpt-5-mini}"
+      generation:
+        max_output_tokens: 4096
+
+consensus:
+  mode: "none"
+
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
