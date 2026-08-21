@@ -1,13 +1,22 @@
 # Private or raw materials
-external/
-private/
-raw/
-data/
-outputs/
-reference_run/
-prompt_snapshots/
+/external/
+/private/
+/raw/
+/data/
+/outputs/
+/reference_run/
+/prompt_snapshots/
 *.env
 .env*
+!.env.example
+
+# Python build and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
 
 # LaTeX / build artifacts
 *.aux

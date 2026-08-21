@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agenqa"
+version = "0.2.0"
+description = "Agentic synthesis runtime for scientific reasoning QA"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "jsonschema>=4.0.0",
+  "langchain-core>=0.2.0",
+  "langgraph>=0.2.0",
+  "pypdf>=5.0.0",
+  "PyYAML>=6.0",
+  "requests>=2.31.0",
+  "rich>=13.7.0",
+  "urllib3<2",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+pdf-advanced = ["pymupdf>=1.24"]
+executable = ["fastmcp", "h5py", "numpy", "scipy", "sympy"]
+dev = ["pytest>=8", "reportlab>=4.0"]
+
+[project.scripts]
+agenqa = "cli:main"
+agenqa-demo = "agenqa.quickstart:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["cli", "utils", "CONSTANTS"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agenqa*", "infra*"]
+
+[tool.setuptools.package-data]
+"agenqa.domain.contracts" = ["schemas/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

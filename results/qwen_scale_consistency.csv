@@ -1,0 +1,5 @@
+solver,all_accuracy_pct,diagnostic_accuracy_pct,interpretation
+qwen3-4b,48.00,21.55,lower-capacity baseline
+qwen3-8b,56.57,34.48,mid-scale improvement
+Qwen3-32B,66.86,50.00,larger-model improvement
+all-solvers,59.54,38.97,family-level aggregate

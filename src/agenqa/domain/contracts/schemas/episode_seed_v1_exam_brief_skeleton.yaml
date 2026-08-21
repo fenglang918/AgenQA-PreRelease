@@ -1,0 +1,100 @@
+contract:
+  instruction: |
+    从输入论文中抽取一个适合闭卷推理题生成的稳定 episode_seed。
+    目标不是复述研究叙事，而是提炼可复用、可推理、可扩展的话题锚点。
+
+    你需要输出五层信息：
+    1. `subject`
+    2. `keywords`
+    3. `anchor_fields`
+    4. `problem_brief`
+    5. `paper_reasoning_skeleton`
+
+    其中 `paper_reasoning_skeleton` 不是完整论文骨架，也不是实验报告摘要，而是一个 **适合出题侧理解的 skeleton-lite**：
+    - 只保留与闭卷推理题真正相关的层次：背景、可直接作为工具箱的前提、假设/边界、以及极简 reasoning_summary。
+    - 不要写实验结果、benchmark、数据集、统计检验、性能比较、ablation、经验发现，也不要写“作者验证了什么”的后验结论。
+    - `premises` 只保留可被视为定义、模型设定、已知关系、标准工具箱的内容；不要把推导出来的结论伪装成 premise。
+    - `assumptions` 只保留可以转写成题目已知条件或讨论边界的假设；如果该假设本身高度依赖真实实验验证，请保守处理。
+    - `reasoning_summary` 只做极简的机制脉络提示，不要复述完整科研论证链。
+
+    输出必须严格符合 output_schema。
+  output_schema:
+    type: object
+    additionalProperties: false
+    properties:
+      subject:
+        type: string
+        description: "论文的核心研究主题（学科-方向）"
+      keywords:
+        type: array
+        items: { type: string }
+        minItems: 5
+        maxItems: 10
+        description: "5-10 个关键词（去重，短语优先；优先保留对象/变量/机制/任务，不要塞实验评价细节）"
+      anchor_fields:
+        type: object
+        additionalProperties: false
+        properties:
+          topic_task:
+            type: string
+            description: "问题设定 / 任务描述"
+          core_objects_symbols:
+            type: string
+            description: "核心对象、变量、符号或系统构件"
+          regime_assumptions:
+            type: string
+            description: "适用条件、假设、边界或讨论 regime"
+        required:
+          - topic_task
+          - core_objects_symbols
+          - regime_assumptions
+      problem_brief:
+        type: string
+        description: "2-4 句、面向闭卷推理题生成的压缩背景 brief；聚焦对象/机制/任务/条件，不写实验结果、benchmark、数据集和后验验证结论"
+      paper_reasoning_skeleton:
+        type: object
+        additionalProperties: false
+        properties:
+          background:
+            type: string
+            description: "1-3 句，描述研究对象、任务、机制背景；不写结论"
+          premises:
+            type: array
+            description: "可直接作为工具箱的前提/定义/标准关系；保持精炼"
+            items:
+              type: string
+            minItems: 1
+            maxItems: 6
+          assumptions:
+            type: array
+            description: "可转写为题目条件或边界的假设/近似"
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                assumption:
+                  type: string
+                condition:
+                  type: string
+                breaks_when:
+                  type: string
+              required:
+                - assumption
+                - condition
+                - breaks_when
+            minItems: 1
+            maxItems: 4
+          reasoning_summary:
+            type: string
+            description: "极简机制脉络提示；不是完整科研论证链，不写实验发现"
+        required:
+          - background
+          - premises
+          - assumptions
+          - reasoning_summary
+    required:
+      - subject
+      - keywords
+      - anchor_fields
+      - problem_brief
+      - paper_reasoning_skeleton

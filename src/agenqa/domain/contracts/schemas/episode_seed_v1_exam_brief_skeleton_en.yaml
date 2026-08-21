@@ -1,0 +1,101 @@
+contract:
+  instruction: |
+    Extract a stable episode_seed from the input paper for downstream closed-book reasoning problem generation.
+    The goal is not to retell the research story, but to capture reusable, inferable, and expandable topic anchors.
+
+    You must output five layers of information:
+    1. `subject`
+    2. `keywords`
+    3. `anchor_fields`
+    4. `problem_brief`
+    5. `paper_reasoning_skeleton`
+
+    `paper_reasoning_skeleton` is not a full paper outline or an experimental summary. It is a **skeleton-lite**
+    meant for problem-generation understanding:
+    - Keep only the layers that are genuinely useful for closed-book reasoning problems: background, toolbox-like premises, assumptions/boundaries, and a minimal reasoning summary.
+    - Do NOT include experimental results, benchmarks, datasets, statistical tests, performance comparisons, ablations, empirical findings, or posterior claims like "the paper verified/discovered X".
+    - `premises` should contain only items that can be treated as definitions, model settings, known relations, or standard toolbox facts. Do not disguise derived conclusions as premises.
+    - `assumptions` should contain only assumptions that can be rewritten as problem conditions or discussion boundaries. If an assumption heavily depends on real experimental validation, handle it conservatively.
+    - `reasoning_summary` should be only a minimal mechanism sketch, not a full research argument chain.
+
+    The output must strictly follow the output_schema.
+  output_schema:
+    type: object
+    additionalProperties: false
+    properties:
+      subject:
+        type: string
+        description: "Primary subject area (discipline-subfield)"
+      keywords:
+        type: array
+        items: { type: string }
+        minItems: 5
+        maxItems: 10
+        description: "5-10 deduplicated keywords/phrases; prioritize objects/variables/mechanisms/tasks over evaluation details"
+      anchor_fields:
+        type: object
+        additionalProperties: false
+        properties:
+          topic_task:
+            type: string
+            description: "Problem setting / task description"
+          core_objects_symbols:
+            type: string
+            description: "Core objects, variables, symbols, or system components"
+          regime_assumptions:
+            type: string
+            description: "Assumptions, conditions, boundaries, or regime"
+        required:
+          - topic_task
+          - core_objects_symbols
+          - regime_assumptions
+      problem_brief:
+        type: string
+        description: "A 2-4 sentence problem-generation brief focused on object/mechanism/task/conditions; exclude experimental results, benchmarks, datasets, and posterior validation claims"
+      paper_reasoning_skeleton:
+        type: object
+        additionalProperties: false
+        properties:
+          background:
+            type: string
+            description: "1-3 sentences describing the research object, task, and mechanism background; do not state conclusions"
+          premises:
+            type: array
+            description: "Premises/definitions/standard relations that can directly serve as a toolbox; keep them concise"
+            items:
+              type: string
+            minItems: 1
+            maxItems: 6
+          assumptions:
+            type: array
+            description: "Assumptions/approximations that can be rewritten as problem conditions or boundaries"
+            items:
+              type: object
+              additionalProperties: false
+              properties:
+                assumption:
+                  type: string
+                condition:
+                  type: string
+                breaks_when:
+                  type: string
+              required:
+                - assumption
+                - condition
+                - breaks_when
+            minItems: 1
+            maxItems: 4
+          reasoning_summary:
+            type: string
+            description: "A minimal mechanism sketch; not a full research argument chain and not experimental findings"
+        required:
+          - background
+          - premises
+          - assumptions
+          - reasoning_summary
+    required:
+      - subject
+      - keywords
+      - anchor_fields
+      - problem_brief
+      - paper_reasoning_skeleton
